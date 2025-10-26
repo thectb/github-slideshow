@@ -12,7 +12,8 @@
 #   6. systemctl start service-monitor.service
 
 LOGFILE="/var/log/service-monitor.log"
-SERVICES=("nginx" "php8.3-fpm" "mariadb")
+# Note: nginx removed - BT Panel manages NGINX separately, systemd nginx is disabled
+SERVICES=("php8.3-fpm" "mariadb")
 
 # Create log file if it doesn't exist
 touch "$LOGFILE"
