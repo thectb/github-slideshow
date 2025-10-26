@@ -1,9 +1,8 @@
 #!/bin/bash
 #
-# All-in-One Server Optimization Deployment Script
-# Deploys all configurations and monitoring tools
+# Continue Deployment Script
+# Run this to complete deployment if deploy-all.sh failed at MySQL step
 #
-# Usage: ./deploy-all.sh
 
 set -e  # Exit on error
 
@@ -13,7 +12,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 echo -e "${GREEN}================================${NC}"
-echo -e "${GREEN}Server Optimization Deployment${NC}"
+echo -e "${GREEN}Continuing Deployment...${NC}"
 echo -e "${GREEN}================================${NC}"
 echo ""
 
@@ -40,69 +39,6 @@ print_error() {
     echo -e "${RED}[✗]${NC} $1"
 }
 
-# Confirmation
-echo -e "${YELLOW}This will:${NC}"
-echo "  1. Add 4GB swap space"
-echo "  2. Deploy PHP-FPM optimization"
-echo "  3. Deploy MySQL optimization"
-echo "  4. Deploy service monitoring"
-echo "  5. Deploy health check"
-echo "  6. Deploy log rotation"
-echo ""
-read -p "Continue? (y/N): " -n 1 -r
-echo
-if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-    echo "Aborted."
-    exit 1
-fi
-
-echo ""
-echo -e "${GREEN}Starting deployment...${NC}"
-echo ""
-
-# ============================================
-# STEP 1: Add Swap Space
-# ============================================
-echo -e "${GREEN}[1/6] Configuring Swap Space...${NC}"
-
-if [ -f /swapfile ]; then
-    print_warning "Swap file already exists, skipping"
-else
-    fallocate -l 4G /swapfile
-    chmod 600 /swapfile
-    mkswap /swapfile
-    swapon /swapfile
-
-    # Add to fstab if not already there
-    if ! grep -q '/swapfile' /etc/fstab; then
-        echo '/swapfile none swap sw 0 0' >> /etc/fstab
-    fi
-
-    print_status "Swap space configured (4GB)"
-fi
-
-# ============================================
-# STEP 2: Deploy PHP-FPM Configuration
-# ============================================
-echo -e "${GREEN}[2/6] Deploying PHP-FPM Configuration...${NC}"
-
-# Backup existing config
-if [ -f /etc/php/8.3/fpm/pool.d/www.conf ]; then
-    cp /etc/php/8.3/fpm/pool.d/www.conf /etc/php/8.3/fpm/pool.d/www.conf.backup.$(date +%Y%m%d-%H%M%S)
-fi
-
-# Deploy new config
-cp php/www.conf /etc/php/8.3/fpm/pool.d/www.conf
-
-# Test and restart
-if php-fpm8.3 -t 2>&1 | grep -q "test is successful"; then
-    systemctl restart php8.3-fpm
-    print_status "PHP-FPM configuration deployed and restarted"
-else
-    print_error "PHP-FPM configuration test failed"
-    exit 1
-fi
-
 # ============================================
 # STEP 3: Deploy MySQL Optimization
 # ============================================
@@ -120,6 +56,7 @@ POSSIBLE_DIRS=(
 for dir in "${POSSIBLE_DIRS[@]}"; do
     if [ -d "$dir" ]; then
         MYSQL_CONF_DIR="$dir"
+        echo "Found MySQL config directory: $dir"
         break
     fi
 done
