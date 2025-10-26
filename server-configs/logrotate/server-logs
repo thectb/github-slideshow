@@ -1,0 +1,65 @@
+# Logrotate Configuration for Server Logs
+# Prevents log files from filling up disk space
+#
+# DEPLOYMENT: Copy to /etc/logrotate.d/server-logs
+# Test with: logrotate -d /etc/logrotate.d/server-logs
+# Force run: logrotate -f /etc/logrotate.d/server-logs
+
+# PHP-FPM Logs
+/var/log/php8.3-fpm.log
+/var/log/php8.3-fpm-errors.log
+/var/log/php8.3-fpm-slow.log {
+    daily
+    missingok
+    rotate 14
+    compress
+    delaycompress
+    notifempty
+    create 0640 www-data adm
+    sharedscripts
+    postrotate
+        systemctl reload php8.3-fpm > /dev/null 2>&1 || true
+    endscript
+}
+
+# NGINX Logs
+/var/log/nginx/*.log {
+    daily
+    missingok
+    rotate 14
+    compress
+    delaycompress
+    notifempty
+    create 0640 www-data adm
+    sharedscripts
+    postrotate
+        systemctl reload nginx > /dev/null 2>&1 || true
+    endscript
+}
+
+# MySQL Slow Query Log
+/var/log/mysql/slow-query.log {
+    daily
+    missingok
+    rotate 7
+    compress
+    delaycompress
+    notifempty
+    create 0640 mysql adm
+    sharedscripts
+    postrotate
+        /usr/bin/mysqladmin --defaults-file=/etc/mysql/debian.cnf flush-logs > /dev/null 2>&1 || true
+    endscript
+}
+
+# Custom Monitoring Logs
+/var/log/service-monitor.log
+/var/log/health-check.log {
+    daily
+    missingok
+    rotate 30
+    compress
+    delaycompress
+    notifempty
+    create 0644 root root
+}

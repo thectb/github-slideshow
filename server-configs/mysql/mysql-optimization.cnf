@@ -1,0 +1,78 @@
+# MySQL/MariaDB Optimization for 3GB RAM Server
+# This configuration limits MySQL memory usage to prevent OOM crashes
+#
+# DEPLOYMENT: Copy to /etc/mysql/mariadb.conf.d/99-optimization.cnf
+# Then run: systemctl restart mariadb
+
+[mysqld]
+
+# === MEMORY SETTINGS ===
+# Target: Keep MySQL under 300-400MB total
+# Current usage: ~237MB (good!)
+
+# InnoDB Buffer Pool (largest memory consumer)
+# Set to 25% of total RAM for mixed workload
+# For 3GB system with other services: 256MB is safe
+innodb_buffer_pool_size = 256M
+
+# InnoDB Log File Size
+# Smaller log files = less memory, but more frequent flushes
+innodb_log_file_size = 32M
+innodb_log_buffer_size = 8M
+
+# Table cache
+# Reduces table opening overhead
+table_open_cache = 200
+table_definition_cache = 400
+
+# Thread cache (reuse threads instead of creating new ones)
+thread_cache_size = 8
+
+# Query cache (deprecated in MySQL 8.0+, but useful in MariaDB)
+query_cache_type = 1
+query_cache_size = 16M
+query_cache_limit = 2M
+
+# === CONNECTION SETTINGS ===
+# Limit concurrent connections to prevent memory exhaustion
+max_connections = 50
+max_user_connections = 45
+
+# Connection timeout
+wait_timeout = 300
+interactive_timeout = 300
+
+# === TEMPORARY TABLES ===
+# Limit temp table sizes
+tmp_table_size = 32M
+max_heap_table_size = 32M
+
+# === BUFFER SETTINGS ===
+# Per-connection buffers (keep small!)
+sort_buffer_size = 2M
+read_buffer_size = 1M
+read_rnd_buffer_size = 2M
+join_buffer_size = 2M
+
+# === PERFORMANCE ===
+# InnoDB settings for better performance on small systems
+innodb_flush_method = O_DIRECT
+innodb_flush_log_at_trx_commit = 2
+innodb_file_per_table = 1
+
+# Disable performance schema to save memory
+performance_schema = OFF
+
+# === LOGGING ===
+# Log slow queries for optimization
+slow_query_log = 1
+slow_query_log_file = /var/log/mysql/slow-query.log
+long_query_time = 2
+
+# Error log
+log_error = /var/log/mysql/error.log
+
+# === BINARY LOGGING ===
+# Limit binlog size to prevent disk fill
+max_binlog_size = 100M
+expire_logs_days = 3
