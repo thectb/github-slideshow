@@ -1,0 +1,28 @@
+<svg width="200" height="400" viewBox="0 0 200 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Peptide Vial Placeholder -->
+  <!-- Cap -->
+  <ellipse cx="100" cy="60" rx="35" ry="8" fill="#333333"/>
+  <rect x="65" y="60" width="70" height="25" fill="#333333"/>
+  <ellipse cx="100" cy="85" rx="35" ry="8" fill="#222222"/>
+
+  <!-- Neck -->
+  <rect x="75" y="85" width="50" height="20" fill="#DDDDDD"/>
+
+  <!-- Main vial body -->
+  <rect x="60" y="105" width="80" height="220" fill="#E8E8E8" rx="5"/>
+  <rect x="65" y="110" width="70" height="210" fill="#F5F5F5" rx="3"/>
+
+  <!-- Liquid inside -->
+  <rect x="70" y="180" width="60" height="130" fill="#B8D4E8" opacity="0.6" rx="2"/>
+
+  <!-- Label area -->
+  <rect x="75" y="200" width="50" height="60" fill="#FFFFFF" opacity="0.9" rx="2"/>
+  <text x="100" y="225" font-family="Arial, sans-serif" font-size="12" fill="#333333" text-anchor="middle" font-weight="600">RFP</text>
+  <text x="100" y="242" font-family="Arial, sans-serif" font-size="10" fill="#666666" text-anchor="middle">PEPTIDE</text>
+
+  <!-- Bottom -->
+  <ellipse cx="100" cy="325" rx="40" ry="10" fill="#CCCCCC"/>
+
+  <!-- Highlights -->
+  <rect x="68" y="120" width="8" height="180" fill="#FFFFFF" opacity="0.3" rx="2"/>
+</svg>
