@@ -1,72 +1,68 @@
-<svg width="1080" height="1350" viewBox="0 0 1080 1350" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="1080" height="1350" viewBox="0 0 1080 1350" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <!-- Background gradient: top-left darker to bottom-right lighter -->
     <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#B8B9B7;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#D0D1CF;stop-opacity:1" />
+      <stop offset="0%" stop-color="#B8B9B7"/>
+      <stop offset="100%" stop-color="#D0D1CF"/>
     </linearGradient>
 
-    <!-- Subtle grain pattern -->
+    <!-- Subtle grain overlay -->
     <filter id="grain">
-      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" result="noise"/>
-      <feColorMatrix in="noise" type="saturate" values="0"/>
-      <feBlend in="SourceGraphic" in2="noise" mode="multiply" />
+      <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="3" result="n"/>
+      <feColorMatrix in="n" type="saturate" values="0"/>
+      <feBlend in="SourceGraphic" in2="n" mode="multiply"/>
+    </filter>
+
+    <!-- Shadow blur -->
+    <filter id="blur">
+      <feGaussianBlur stdDeviation="20"/>
     </filter>
   </defs>
 
   <!-- Background -->
   <rect width="1080" height="1350" fill="url(#bgGradient)"/>
-  <rect width="1080" height="1350" fill="#C4C5C3" opacity="0.008" filter="url(#grain)"/>
+  <rect width="1080" height="1350" fill="#C4C5C3" opacity="0.01" filter="url(#grain)"/>
 
-  <!-- Header Section (24px margin) -->
+  <!-- Header -->
   <g id="header">
     <!-- Logo -->
-    <image x="35" y="35" width="160" height="53" xlink:href="../assets/logo.svg"/>
+    <image href="{{LOGO_DATA}}" x="48" y="48" height="56"/>
 
-    <!-- Header Title -->
-    <text x="540" y="140" font-family="Montserrat, Arial, sans-serif" font-size="38" font-weight="700" fill="#111111" text-anchor="middle">
-      Top 10 Research Peptides
-    </text>
-    <text x="540" y="180" font-family="Montserrat, Arial, sans-serif" font-size="38" font-weight="700" fill="#111111" text-anchor="middle">
-      to Recomp Your Body
+    <!-- Title -->
+    <text x="540" y="110" font-family="Montserrat, Arial, sans-serif" font-size="46" font-weight="800" fill="#111111" text-anchor="middle">
+      Top 10 Research Peptides to Recomp Your Body
     </text>
   </g>
 
-  <!-- Subheadline -->
-  <text x="540" y="220" font-family="Montserrat, Arial, sans-serif" font-size="16" font-weight="400" fill="#111111" text-anchor="middle" opacity="0.85">
-    Investigational compounds discussed for research use
-  </text>
-  <text x="540" y="242" font-family="Montserrat, Arial, sans-serif" font-size="16" font-weight="400" fill="#111111" text-anchor="middle" opacity="0.85">
-    in metabolic, recovery, and cellular pathways.
+  <!-- Hero Section -->
+  <g id="hero">
+    <!-- Shadow (behind vial) -->
+    <ellipse cx="540" cy="820" rx="270" ry="90" fill="#000000" opacity="0.25" filter="url(#blur)"/>
+
+    <!-- Translucent "10" -->
+    <text x="540" y="560" font-family="Montserrat, Arial, sans-serif" font-size="620" font-weight="900" fill="#111111" text-anchor="middle" opacity="0.10">
+      10
+    </text>
+
+    <!-- Hero Vial -->
+    <image href="{{HERO_DATA}}" x="180" y="260" width="720" preserveAspectRatio="xMidYMid meet"/>
+  </g>
+
+  <!-- Subline -->
+  <text x="540" y="940" font-family="Montserrat, Arial, sans-serif" font-size="26" font-weight="400" fill="#111111" text-anchor="middle" opacity="0.85">
+    Investigational compounds discussed for research use in metabolic, recovery, and cellular pathways.
   </text>
 
-  <!-- Hero "10" (translucent, 10% opacity) -->
-  <text x="540" y="650" font-family="Montserrat, Arial, sans-serif" font-size="450" font-weight="900" fill="#111111" text-anchor="middle" opacity="0.10">
-    10
-  </text>
-
-  <!-- Hero Vial (centered, ~594px width = 55% of canvas) -->
-  <image x="243" y="340" width="594" height="594" xlink:href="../assets/vial.svg" opacity="0.95"/>
-
-  <!-- Peptide List Section (Single column) -->
-  <g id="peptideList" transform="translate(120, 980)">
+  <!-- Peptide List (Single column) -->
+  <g id="peptideList" transform="translate(80, 1010)">
     {{PEPTIDE_LIST}}
   </g>
 
-  <!-- Footer Section -->
+  <!-- Footer -->
   <g id="footer">
     <!-- RUO Line -->
-    <text x="540" y="1240" font-family="Montserrat, Arial, sans-serif" font-size="12" font-weight="600" fill="#111111" text-anchor="middle">
+    <text x="540" y="1290" font-family="Montserrat, Arial, sans-serif" font-size="20" font-weight="600" fill="#111111" text-anchor="middle">
       For Research Use Only (RUO). Not for human or veterinary use.
     </text>
-
-    <!-- CTA -->
-    <text x="540" y="1285" font-family="Montserrat, Arial, sans-serif" font-size="18" font-weight="600" fill="#111111" text-anchor="middle">
-      View full RUO catalog →
-    </text>
-
-    <!-- QR Code Placeholder (smaller for social) -->
-    <rect x="495" y="1295" width="90" height="90" fill="#FFFFFF" stroke="#111111" stroke-width="2" rx="4"/>
-    <text x="540" y="1345" font-family="Arial, sans-serif" font-size="12" fill="#666666" text-anchor="middle">QR</text>
   </g>
 </svg>
