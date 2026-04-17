@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MYTHOS LABS • Elite Blood Panel Interface</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Space+Grotesk:wght@300;400;500;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00f2ff;
+            --secondary: #7b2cbf;
+            --accent: #ff006e;
+            --gold: #ffd60a;
+            --dark: #0a0e27;
+            --darker: #050819;
+            --card-bg: rgba(15, 23, 42, 0.8);
+            --glow: rgba(0, 242, 255, 0.3);
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1729 100%);
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(123, 44, 191, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 242, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(255, 0, 110, 0.1) 0%, transparent 40%);
+            animation: breathe 8s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes breathe {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+
+        /* Grid Pattern Overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(0, 242, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 242, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .logo {
+            font-family: 'Orbitron', monospace;
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 8px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px var(--glow);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--primary);
+            letter-spacing: 4px;
+            font-weight: 300;
+        }
+
+        /* Agent Interface */
+        .agent-container {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 40px;
+            margin-bottom: 40px;
+            border: 2px solid rgba(0, 242, 255, 0.2);
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                inset 0 0 60px rgba(0, 242, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .agent-container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, var(--primary), var(--accent), var(--secondary));
+            border-radius: 30px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .agent-container:hover::before {
+            opacity: 0.3;
+            animation: borderGlow 2s infinite;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        .agent-header {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .agent-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            box-shadow: 0 0 40px rgba(123, 44, 191, 0.6);
+            animation: float 3s ease-in-out infinite;
+            position: relative;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .agent-avatar::before {
+            content: '';
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .agent-info h2 {
+            font-family: 'Orbitron', monospace;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .agent-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: var(--gold);
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--gold);
+            animation: blink 2s ease-in-out infinite;
+            box-shadow: 0 0 15px var(--gold);
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .agent-message {
+            background: rgba(0, 242, 255, 0.05);
+            border-left: 4px solid var(--primary);
+            padding: 25px;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Blood Panel Grid */
+        .panel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .metric-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent, rgba(0, 242, 255, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 40px rgba(0, 242, 255, 0.3);
+        }
+
+        .metric-card:hover::before {
+            opacity: 1;
+        }
+
+        .metric-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .metric-name {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .metric-icon {
+            font-size: 1.5rem;
+        }
+
+        .metric-value {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .metric-range {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 15px;
+        }
+
+        .metric-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .metric-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 10px;
+            transition: width 1s ease;
+            box-shadow: 0 0 10px var(--glow);
+        }
+
+        .status-optimal {
+            color: #00ff88;
+        }
+
+        .status-elevated {
+            color: var(--gold);
+        }
+
+        .status-critical {
+            color: var(--accent);
+        }
+
+        /* Insights Section */
+        .insights-section {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 40px;
+            border: 2px solid rgba(255, 0, 110, 0.2);
+            margin-bottom: 40px;
+        }
+
+        .insights-header {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: var(--accent);
+        }
+
+        .insight-item {
+            background: rgba(255, 0, 110, 0.05);
+            border-left: 4px solid var(--accent);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .insight-item:hover {
+            transform: translateX(10px);
+            background: rgba(255, 0, 110, 0.1);
+        }
+
+        /* Actions */
+        .actions {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 18px 40px;
+            border-radius: 15px;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 10px 30px rgba(0, 242, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 242, 255, 0.5);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--accent), var(--gold));
+            color: white;
+            box-shadow: 0 10px 30px rgba(255, 0, 110, 0.3);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 0, 110, 0.5);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2rem;
+                letter-spacing: 4px;
+            }
+
+            .agent-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .panel-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="logo">MYTHOS LABS</h1>
+            <p class="tagline">ELITE BLOOD PANEL INTERFACE</p>
+        </div>
+
+        <!-- Agent Interface -->
+        <div class="agent-container">
+            <div class="agent-header">
+                <div class="agent-avatar">🧬</div>
+                <div class="agent-info">
+                    <h2>ATHENA • AI Health Sentinel</h2>
+                    <div class="agent-status">
+                        <div class="status-dot"></div>
+                        <span>ACTIVE ANALYSIS • MYTHIC PROTOCOL ENGAGED</span>
+                    </div>
+                </div>
+            </div>
+            <div class="agent-message">
+                <p><strong>Greetings, Champion.</strong> Your latest blood panel has been analyzed through the Olympus Protocol. I have detected several biomarkers worthy of your attention. Your cellular vitality shows promise, though optimization opportunities exist. Below lies your complete biological atlas—decoded from the mortal realm into actionable intelligence.</p>
+            </div>
+        </div>
+
+        <!-- Blood Panel Grid -->
+        <div class="panel-grid">
+            <!-- Testosterone -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-name">Total Testosterone</span>
+                    <span class="metric-icon">⚡</span>
+                </div>
+                <div class="metric-value">847 ng/dL</div>
+                <div class="metric-range">Reference: 264-916 ng/dL</div>
+                <div class="metric-bar">
+                    <div class="metric-fill" style="width: 85%;"></div>
+                </div>
+                <p style="margin-top: 10px; color: #00ff88; font-weight: 600;">● OPTIMAL RANGE</p>
+            </div>
+
+            <!-- Vitamin D -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-name">Vitamin D (25-OH)</span>
+                    <span class="metric-icon">☀️</span>
+                </div>
+                <div class="metric-value">68 ng/mL</div>
+                <div class="metric-range">Reference: 30-100 ng/mL</div>
+                <div class="metric-bar">
+                    <div class="metric-fill" style="width: 68%;"></div>
+                </div>
+                <p style="margin-top: 10px; color: #00ff88; font-weight: 600;">● OPTIMAL RANGE</p>
+            </div>
+
+            <!-- Hemoglobin -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-name">Hemoglobin</span>
+                    <span class="metric-icon">🩸</span>
+                </div>
+                <div class="metric-value">15.8 g/dL</div>
+                <div class="metric-range">Reference: 13.5-17.5 g/dL</div>
+                <div class="metric-bar">
+                    <div class="metric-fill" style="width: 78%;"></div>
+                </div>
+                <p style="margin-top: 10px; color: #00ff88; font-weight: 600;">● OPTIMAL RANGE</p>
+            </div>
+
+            <!-- HDL Cholesterol -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-name">HDL Cholesterol</span>
+                    <span class="metric-icon">💚</span>
+                </div>
+                <div class="metric-value">62 mg/dL</div>
+                <div class="metric-range">Reference: >40 mg/dL</div>
+                <div class="metric-bar">
+                    <div class="metric-fill" style="width: 92%;"></div>
+                </div>
+                <p style="margin-top: 10px; color: #00ff88; font-weight: 600;">● EXCELLENT</p>
+            </div>
+
+            <!-- LDL Cholesterol -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-name">LDL Cholesterol</span>
+                    <span class="metric-icon">⚠️</span>
+                </div>
+                <div class="metric-value">118 mg/dL</div>
+                <div class="metric-range">Reference: <100 mg/dL optimal</div>
+                <div class="metric-bar">
+                    <div class="metric-fill" style="width: 65%; background: linear-gradient(90deg, var(--gold), var(--accent));"></div>
+                </div>
+                <p style="margin-top: 10px; color: #ffd60a; font-weight: 600;">● SLIGHTLY ELEVATED</p>
+            </div>
+
+            <!-- C-Reactive Protein -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-name">C-Reactive Protein</span>
+                    <span class="metric-icon">🔥</span>
+                </div>
+                <div class="metric-value">0.8 mg/L</div>
+                <div class="metric-range">Reference: <1.0 mg/L</div>
+                <div class="metric-bar">
+                    <div class="metric-fill" style="width: 20%;"></div>
+                </div>
+                <p style="margin-top: 10px; color: #00ff88; font-weight: 600;">● LOW INFLAMMATION</p>
+            </div>
+
+            <!-- IGF-1 -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-name">IGF-1</span>
+                    <span class="metric-icon">💪</span>
+                </div>
+                <div class="metric-value">245 ng/mL</div>
+                <div class="metric-range">Reference: 115-307 ng/mL</div>
+                <div class="metric-bar">
+                    <div class="metric-fill" style="width: 75%;"></div>
+                </div>
+                <p style="margin-top: 10px; color: #00ff88; font-weight: 600;">● EXCELLENT RECOVERY</p>
+            </div>
+
+            <!-- Thyroid (TSH) -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-name">TSH (Thyroid)</span>
+                    <span class="metric-icon">🦋</span>
+                </div>
+                <div class="metric-value">2.1 mIU/L</div>
+                <div class="metric-range">Reference: 0.4-4.0 mIU/L</div>
+                <div class="metric-bar">
+                    <div class="metric-fill" style="width: 55%;"></div>
+                </div>
+                <p style="margin-top: 10px; color: #00ff88; font-weight: 600;">● OPTIMAL METABOLISM</p>
+            </div>
+
+            <!-- Cortisol -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-name">Cortisol (AM)</span>
+                    <span class="metric-icon">😌</span>
+                </div>
+                <div class="metric-value">14.2 µg/dL</div>
+                <div class="metric-range">Reference: 6.0-18.0 µg/dL</div>
+                <div class="metric-bar">
+                    <div class="metric-fill" style="width: 68%;"></div>
+                </div>
+                <p style="margin-top: 10px; color: #00ff88; font-weight: 600;">● BALANCED STRESS</p>
+            </div>
+
+            <!-- HbA1c -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-name">HbA1c (Glucose)</span>
+                    <span class="metric-icon">🍬</span>
+                </div>
+                <div class="metric-value">5.1%</div>
+                <div class="metric-range">Reference: <5.7% normal</div>
+                <div class="metric-bar">
+                    <div class="metric-fill" style="width: 30%;"></div>
+                </div>
+                <p style="margin-top: 10px; color: #00ff88; font-weight: 600;">● EXCELLENT CONTROL</p>
+            </div>
+        </div>
+
+        <!-- Insights Section -->
+        <div class="insights-section">
+            <h2 class="insights-header">⚡ ATHENA'S INSIGHTS • MYTHIC ANALYSIS</h2>
+
+            <div class="insight-item">
+                <strong>🏆 OLYMPIAN STRENGTH:</strong> Your testosterone levels rival those of ancient warriors. Cellular regeneration is robust. Continue your current training protocol—the gods smile upon your discipline.
+            </div>
+
+            <div class="insight-item">
+                <strong>🌞 SOLAR VITALITY:</strong> Vitamin D sits in the golden zone. Your skeletal fortress and immune legion stand ready. Consider strategic supplementation during winter's siege.
+            </div>
+
+            <div class="insight-item">
+                <strong>⚠️ LDL ELEVATION DETECTED:</strong> Your arterial pathways show mild congestion. Recommend omega-3 supplementation and reduction of saturated fats. The river must flow freely for peak performance.
+            </div>
+
+            <div class="insight-item">
+                <strong>🔥 LOW INFLAMMATION:</strong> C-reactive protein indicates minimal systemic inflammation—a rare achievement. Your recovery protocols are exemplary. This is the way of champions.
+            </div>
+
+            <div class="insight-item">
+                <strong>💪 IGF-1 EXCELLENCE:</strong> Growth hormone axis functioning at elite levels. Your body responds magnificently to stress adaptation. Continue progressive overload strategies.
+            </div>
+
+            <div class="insight-item">
+                <strong>🦋 METABOLIC MASTERY:</strong> Thyroid function optimal. Your metabolic engine runs clean and efficient. Energy production pathways are clear and unobstructed.
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="actions">
+            <button class="btn btn-primary">📊 GENERATE FULL REPORT</button>
+            <button class="btn btn-secondary">🧪 ORDER PEPTIDE PROTOCOL</button>
+            <button class="btn btn-primary">💬 CONSULT ATHENA</button>
+            <button class="btn btn-secondary">📈 TRACK PROGRESS</button>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>MYTHOS LABS • ELITE BIOHACKING INTERFACE</p>
+            <p style="margin-top: 10px;">Powered by Olympus Protocol AI • For Research Use Only (RUO)</p>
+            <p style="margin-top: 5px; opacity: 0.6;">Your biological data is encrypted and secured through quantum-resistant protocols</p>
+        </div>
+    </div>
+
+    <script>
+        // Animate metric fills on load
+        window.addEventListener('load', () => {
+            const fills = document.querySelectorAll('.metric-fill');
+            fills.forEach((fill, index) => {
+                setTimeout(() => {
+                    fill.style.width = fill.style.width || '0%';
+                }, index * 100);
+            });
+        });
+
+        // Interactive button effects
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'translateY(-3px)';
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>
