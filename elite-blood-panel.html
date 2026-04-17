@@ -3,785 +3,772 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Diagnostics • Comprehensive Blood Panel Interface</title>
+    <title>Executive Health Intelligence — Comprehensive Panel</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap');
 
-        * {
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
         :root {
-            --primary: #2563eb;
-            --primary-light: #3b82f6;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --dark: #0f172a;
-            --darker: #020617;
-            --card-bg: #ffffff;
-            --border: #e2e8f0;
-            --text-primary: #0f172a;
-            --text-secondary: #64748b;
-            --shadow: rgba(15, 23, 42, 0.1);
+            --white: #ffffff;
+            --off-white: #fafafa;
+            --warm-gray-50: #f9f8f6;
+            --warm-gray-100: #f0eeeb;
+            --warm-gray-200: #e0ddd8;
+            --warm-gray-300: #c4c0b9;
+            --warm-gray-400: #9e9a92;
+            --warm-gray-500: #6b6760;
+            --warm-gray-600: #4a4740;
+            --charcoal: #2c2a26;
+            --black: #1a1917;
+            --optimal: #2d6a4f;
+            --optimal-bg: #f0f7f3;
+            --elevated: #9a6c15;
+            --elevated-bg: #fdf8ed;
+            --critical: #9b2c2c;
+            --critical-bg: #fdf2f2;
+            --accent: #1a4480;
+            --accent-light: #e8eef6;
+            --rule: #e8e6e1;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-md: 0 2px 8px rgba(0,0,0,0.06);
+            --shadow-lg: 0 4px 24px rgba(0,0,0,0.08);
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            color: var(--text-primary);
+            background: var(--warm-gray-50);
+            color: var(--charcoal);
             line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
         }
 
-        .container {
-            max-width: 1600px;
+        .page {
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 60px 40px 80px;
         }
 
-        /* Header */
-        .header {
-            background: white;
-            border-radius: 16px;
-            padding: 40px;
-            margin-bottom: 30px;
-            box-shadow: 0 1px 3px var(--shadow);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
+        /* Masthead */
+        .masthead {
+            border-bottom: 1px solid var(--rule);
+            padding-bottom: 40px;
+            margin-bottom: 48px;
         }
 
-        .header-left h1 {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--text-primary);
-            margin-bottom: 5px;
-        }
-
-        .header-left p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-
-        .header-right {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .patient-badge {
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            color: white;
-            padding: 12px 24px;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .date-badge {
-            background: #f1f5f9;
-            color: var(--text-secondary);
-            padding: 12px 20px;
-            border-radius: 10px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-        }
-
-        /* AI Agent Card */
-        .agent-card {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            border-radius: 16px;
-            padding: 35px;
-            margin-bottom: 30px;
-            color: white;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.3);
-        }
-
-        .agent-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-
-        .agent-header {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 25px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .agent-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary-light), var(--primary));
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
-        }
-
-        .agent-info h3 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .agent-status {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.7);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .status-indicator {
-            width: 8px;
-            height: 8px;
-            background: var(--success);
-            border-radius: 50%;
-            animation: pulse-dot 2s infinite;
-        }
-
-        @keyframes pulse-dot {
-            0%, 100% { opacity: 1; box-shadow: 0 0 10px var(--success); }
-            50% { opacity: 0.5; box-shadow: 0 0 5px var(--success); }
-        }
-
-        .agent-message {
-            font-size: 1.05rem;
-            line-height: 1.8;
-            color: rgba(255, 255, 255, 0.9);
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Summary Cards */
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .summary-card {
-            background: white;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 1px 3px var(--shadow);
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .summary-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px var(--shadow);
-        }
-
-        .summary-card.optimal {
-            border-color: var(--success);
-        }
-
-        .summary-card.attention {
-            border-color: var(--warning);
-        }
-
-        .summary-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--text-secondary);
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .summary-value {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--text-primary);
-            margin-bottom: 5px;
-        }
-
-        .summary-text {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        /* Metrics Grid */
-        .metrics-section {
-            background: white;
-            border-radius: 16px;
-            padding: 35px;
-            margin-bottom: 30px;
-            box-shadow: 0 1px 3px var(--shadow);
-        }
-
-        .section-header {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 25px;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 20px;
-        }
-
-        .metric-card {
-            background: #f8fafc;
-            border-radius: 12px;
-            padding: 20px;
-            border: 2px solid var(--border);
-            transition: all 0.3s ease;
-        }
-
-        .metric-card:hover {
-            border-color: var(--primary-light);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
-        }
-
-        .metric-header {
+        .masthead-top {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 15px;
+            margin-bottom: 32px;
         }
 
-        .metric-name {
+        .practice-name {
+            font-family: 'Source Serif 4', Georgia, serif;
             font-size: 0.85rem;
             font-weight: 600;
-            color: var(--text-secondary);
+            letter-spacing: 0.15em;
             text-transform: uppercase;
-            letter-spacing: 0.3px;
+            color: var(--warm-gray-500);
         }
 
-        .metric-icon {
-            font-size: 1.3rem;
-            opacity: 0.6;
-        }
-
-        .metric-value-container {
-            margin-bottom: 12px;
-        }
-
-        .metric-value {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 3px;
-        }
-
-        .metric-unit {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .metric-range {
+        .report-meta {
+            text-align: right;
             font-size: 0.8rem;
-            color: var(--text-secondary);
-            margin-bottom: 12px;
+            color: var(--warm-gray-400);
+            line-height: 1.8;
         }
 
-        .metric-bar {
-            width: 100%;
-            height: 6px;
-            background: #e2e8f0;
-            border-radius: 10px;
+        .report-title {
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: var(--black);
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+
+        .report-subtitle {
+            font-size: 1.05rem;
+            color: var(--warm-gray-500);
+            font-weight: 400;
+        }
+
+        /* Executive Summary */
+        .executive-summary {
+            background: var(--white);
+            border: 1px solid var(--rule);
+            border-radius: 2px;
+            padding: 36px 40px;
+            margin-bottom: 48px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .summary-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--warm-gray-400);
+            margin-bottom: 16px;
+        }
+
+        .summary-text {
+            font-size: 1rem;
+            line-height: 1.85;
+            color: var(--warm-gray-600);
+        }
+
+        .summary-text strong {
+            color: var(--charcoal);
+            font-weight: 600;
+        }
+
+        /* Score Strip */
+        .score-strip {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
+            border-radius: 2px;
+            margin-bottom: 48px;
             overflow: hidden;
+        }
+
+        .score-item {
+            background: var(--white);
+            padding: 28px 24px;
+        }
+
+        .score-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--warm-gray-400);
             margin-bottom: 10px;
         }
 
-        .metric-fill {
-            height: 100%;
-            border-radius: 10px;
-            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        .score-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--black);
+            line-height: 1;
+            margin-bottom: 6px;
         }
 
-        .metric-fill.optimal {
-            background: linear-gradient(90deg, var(--success), #059669);
+        .score-note {
+            font-size: 0.8rem;
+            color: var(--warm-gray-400);
         }
 
-        .metric-fill.elevated {
-            background: linear-gradient(90deg, var(--warning), #d97706);
+        /* Section */
+        .section {
+            margin-bottom: 48px;
         }
 
-        .metric-fill.critical {
-            background: linear-gradient(90deg, var(--danger), #dc2626);
+        .section-title {
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--black);
+            margin-bottom: 6px;
         }
 
-        .metric-status {
-            display: inline-flex;
+        .section-subtitle {
+            font-size: 0.85rem;
+            color: var(--warm-gray-400);
+            margin-bottom: 24px;
+        }
+
+        /* Metric Table */
+        .metric-table {
+            background: var(--white);
+            border: 1px solid var(--rule);
+            border-radius: 2px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .metric-row {
+            display: grid;
+            grid-template-columns: 2fr 1.2fr 1.5fr 1fr;
             align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.75rem;
+            padding: 20px 28px;
+            border-bottom: 1px solid var(--warm-gray-100);
+            transition: background 0.15s ease;
+        }
+
+        .metric-row:last-child {
+            border-bottom: none;
+        }
+
+        .metric-row:hover {
+            background: var(--warm-gray-50);
+        }
+
+        .metric-row-header {
+            background: var(--warm-gray-50);
+            padding: 12px 28px;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .metric-row-header span {
+            font-size: 0.65rem;
             font-weight: 600;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            color: var(--warm-gray-400);
         }
 
-        .metric-status.optimal {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--success);
+        .metric-name-col {
+            display: flex;
+            flex-direction: column;
         }
 
-        .metric-status.elevated {
-            background: rgba(245, 158, 11, 0.1);
-            color: var(--warning);
-        }
-
-        .metric-status.critical {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--danger);
-        }
-
-        /* Recommendations */
-        .recommendations {
-            background: white;
-            border-radius: 16px;
-            padding: 35px;
-            margin-bottom: 30px;
-            box-shadow: 0 1px 3px var(--shadow);
-        }
-
-        .recommendation-item {
-            padding: 20px;
-            border-left: 4px solid var(--primary);
-            background: #f8fafc;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            transition: all 0.3s ease;
-        }
-
-        .recommendation-item:hover {
-            background: #f1f5f9;
-            transform: translateX(5px);
-        }
-
-        .recommendation-title {
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-            font-size: 1rem;
-        }
-
-        .recommendation-text {
-            color: var(--text-secondary);
+        .metric-name {
             font-size: 0.95rem;
-            line-height: 1.6;
+            font-weight: 600;
+            color: var(--charcoal);
+            margin-bottom: 2px;
+        }
+
+        .metric-detail {
+            font-size: 0.78rem;
+            color: var(--warm-gray-400);
+        }
+
+        .metric-value-col {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--black);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .metric-value-col .unit {
+            font-size: 0.78rem;
+            font-weight: 400;
+            color: var(--warm-gray-400);
+            margin-left: 3px;
+        }
+
+        .metric-range-col {
+            position: relative;
+        }
+
+        .range-bar {
+            width: 100%;
+            height: 4px;
+            background: var(--warm-gray-100);
+            border-radius: 2px;
+            position: relative;
+            margin-bottom: 6px;
+        }
+
+        .range-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            border-radius: 2px;
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .range-fill.optimal { background: var(--optimal); }
+        .range-fill.elevated { background: var(--elevated); }
+        .range-fill.critical { background: var(--critical); }
+
+        .range-text {
+            font-size: 0.72rem;
+            color: var(--warm-gray-400);
+        }
+
+        .metric-status-col {
+            text-align: right;
+        }
+
+        .status-badge {
+            display: inline-block;
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 5px 12px;
+            border-radius: 2px;
+        }
+
+        .status-badge.optimal {
+            background: var(--optimal-bg);
+            color: var(--optimal);
+        }
+
+        .status-badge.elevated {
+            background: var(--elevated-bg);
+            color: var(--elevated);
+        }
+
+        .status-badge.critical {
+            background: var(--critical-bg);
+            color: var(--critical);
+        }
+
+        /* Clinical Notes */
+        .clinical-notes {
+            background: var(--white);
+            border: 1px solid var(--rule);
+            border-radius: 2px;
+            padding: 36px 40px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .note-item {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--warm-gray-100);
+        }
+
+        .note-item:first-child {
+            padding-top: 0;
+        }
+
+        .note-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .note-priority {
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .note-priority.high { color: var(--elevated); }
+        .note-priority.routine { color: var(--warm-gray-400); }
+
+        .note-title {
+            font-weight: 600;
+            color: var(--charcoal);
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        .note-text {
+            font-size: 0.9rem;
+            color: var(--warm-gray-500);
+            line-height: 1.7;
         }
 
         /* Actions */
-        .actions {
+        .actions-bar {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             flex-wrap: wrap;
-            justify-content: center;
+            margin-top: 48px;
+            padding-top: 40px;
+            border-top: 1px solid var(--rule);
         }
 
         .btn {
-            padding: 14px 28px;
-            border-radius: 10px;
+            padding: 12px 24px;
+            font-size: 0.82rem;
             font-weight: 600;
-            font-size: 0.95rem;
+            border-radius: 2px;
             border: none;
             cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+            transition: all 0.2s ease;
+            letter-spacing: 0.02em;
         }
 
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        .btn-dark {
+            background: var(--black);
+            color: var(--white);
         }
 
-        .btn-primary:hover {
-            background: var(--primary-light);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+        .btn-dark:hover {
+            background: var(--charcoal);
         }
 
-        .btn-secondary {
-            background: white;
-            color: var(--text-primary);
-            border: 2px solid var(--border);
+        .btn-outline {
+            background: var(--white);
+            color: var(--charcoal);
+            border: 1px solid var(--warm-gray-300);
         }
 
-        .btn-secondary:hover {
-            border-color: var(--primary);
-            transform: translateY(-2px);
+        .btn-outline:hover {
+            border-color: var(--charcoal);
         }
 
         /* Footer */
         .footer {
-            text-align: center;
-            padding: 30px;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
+            margin-top: 64px;
+            padding-top: 32px;
+            border-top: 1px solid var(--rule);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-left, .footer-right {
+            font-size: 0.75rem;
+            color: var(--warm-gray-400);
+            line-height: 1.8;
+        }
+
+        .footer-right {
+            text-align: right;
+        }
+
+        .confidential {
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--warm-gray-300);
+            margin-top: 12px;
+        }
+
+        /* Print Styles */
+        @media print {
+            body { background: white; }
+            .page { padding: 20px; }
+            .btn, .actions-bar { display: none; }
+            .metric-row:hover { background: transparent; }
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .metrics-grid {
-                grid-template-columns: 1fr;
-            }
+            .page { padding: 30px 20px; }
+            .report-title { font-size: 1.8rem; }
+            .masthead-top { flex-direction: column; gap: 20px; }
+            .report-meta { text-align: left; }
+            .score-strip { grid-template-columns: repeat(2, 1fr); }
+            .metric-row { grid-template-columns: 1fr 1fr; gap: 10px; padding: 16px 20px; }
+            .metric-row-header { display: none; }
+            .metric-range-col { grid-column: 1 / -1; }
+            .metric-status-col { text-align: left; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <div class="header-left">
-                <h1>Elite Diagnostics Panel</h1>
-                <p>Comprehensive Blood Chemistry Analysis</p>
-            </div>
-            <div class="header-right">
-                <div class="patient-badge">PATIENT #RFP-2847</div>
-                <div class="date-badge">2026-04-17</div>
-            </div>
-        </div>
+    <div class="page">
 
-        <!-- AI Agent Card -->
-        <div class="agent-card">
-            <div class="agent-header">
-                <div class="agent-icon">🤖</div>
-                <div class="agent-info">
-                    <h3>AI Clinical Assistant</h3>
-                    <div class="agent-status">
-                        <div class="status-indicator"></div>
-                        <span>Analysis Complete • Report Generated</span>
-                    </div>
+        <!-- Masthead -->
+        <div class="masthead">
+            <div class="masthead-top">
+                <div class="practice-name">Executive Health Intelligence</div>
+                <div class="report-meta">
+                    Report Date: April 17, 2026<br>
+                    Patient ID: Confidential<br>
+                    Ordering Physician: On File
                 </div>
             </div>
-            <div class="agent-message">
-                <strong>Executive Summary:</strong> Your comprehensive blood panel has been analyzed against optimal reference ranges and clinical best practices. Overall metabolic health is excellent with specific optimization opportunities identified. Ten biomarkers evaluated across cardiovascular, hormonal, inflammatory, and metabolic categories. Detailed analysis and recommendations below.
+            <h1 class="report-title">Comprehensive Blood Panel</h1>
+            <p class="report-subtitle">Longitudinal biomarker analysis across hormonal, cardiovascular, metabolic, and inflammatory domains.</p>
+        </div>
+
+        <!-- Executive Summary -->
+        <div class="executive-summary">
+            <div class="summary-label">Clinical Summary</div>
+            <div class="summary-text">
+                <strong>Overall assessment: Excellent.</strong> Ten primary biomarkers were evaluated. Eight fall within optimal reference ranges, indicating strong metabolic function, hormonal balance, and low systemic inflammation. One marker (LDL cholesterol) presents a mild elevation warranting targeted intervention. Recommended follow-up in 90 days to assess lipid response to dietary modification. No urgent findings.
             </div>
         </div>
 
-        <!-- Summary Cards -->
-        <div class="summary-grid">
-            <div class="summary-card optimal">
-                <div class="summary-label">Overall Status</div>
-                <div class="summary-value">Excellent</div>
-                <div class="summary-text">8/10 markers optimal</div>
+        <!-- Score Strip -->
+        <div class="score-strip">
+            <div class="score-item">
+                <div class="score-label">Markers Evaluated</div>
+                <div class="score-value">10</div>
+                <div class="score-note">Across 4 domains</div>
             </div>
-
-            <div class="summary-card optimal">
-                <div class="summary-label">Cardiovascular</div>
-                <div class="summary-value">Strong</div>
-                <div class="summary-text">HDL elevated, CRP low</div>
+            <div class="score-item">
+                <div class="score-label">Within Optimal Range</div>
+                <div class="score-value">9</div>
+                <div class="score-note">90th percentile</div>
             </div>
-
-            <div class="summary-card optimal">
-                <div class="summary-label">Hormonal Balance</div>
-                <div class="summary-value">Optimal</div>
-                <div class="summary-text">Testosterone, thyroid normal</div>
+            <div class="score-item">
+                <div class="score-label">Requires Attention</div>
+                <div class="score-value">1</div>
+                <div class="score-note">LDL mildly elevated</div>
             </div>
-
-            <div class="summary-card attention">
-                <div class="summary-label">Attention Areas</div>
-                <div class="summary-value">1</div>
-                <div class="summary-text">LDL slightly elevated</div>
+            <div class="score-item">
+                <div class="score-label">Critical Findings</div>
+                <div class="score-value">0</div>
+                <div class="score-note">No action required</div>
             </div>
         </div>
 
         <!-- Hormonal Panel -->
-        <div class="metrics-section">
-            <h2 class="section-header">🧬 Hormonal Panel</h2>
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <div class="metric-header">
+        <div class="section">
+            <h2 class="section-title">Hormonal Panel</h2>
+            <p class="section-subtitle">Endocrine function and stress-adaptation markers</p>
+
+            <div class="metric-table">
+                <div class="metric-row metric-row-header">
+                    <span>Biomarker</span>
+                    <span>Result</span>
+                    <span>Reference Range</span>
+                    <span style="text-align:right;">Status</span>
+                </div>
+
+                <div class="metric-row">
+                    <div class="metric-name-col">
                         <span class="metric-name">Total Testosterone</span>
-                        <span class="metric-icon">⚡</span>
+                        <span class="metric-detail">Serum, immunoassay</span>
                     </div>
-                    <div class="metric-value-container">
-                        <span class="metric-value">847</span>
-                        <span class="metric-unit">ng/dL</span>
+                    <div class="metric-value-col">847<span class="unit">ng/dL</span></div>
+                    <div class="metric-range-col">
+                        <div class="range-bar"><div class="range-fill optimal" style="width:85%"></div></div>
+                        <span class="range-text">264 – 916 ng/dL</span>
                     </div>
-                    <div class="metric-range">Reference: 264-916 ng/dL</div>
-                    <div class="metric-bar">
-                        <div class="metric-fill optimal" style="width: 85%;"></div>
-                    </div>
-                    <span class="metric-status optimal">● OPTIMAL RANGE</span>
+                    <div class="metric-status-col"><span class="status-badge optimal">Optimal</span></div>
                 </div>
 
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <span class="metric-name">IGF-1 (Growth Factor)</span>
-                        <span class="metric-icon">💪</span>
+                <div class="metric-row">
+                    <div class="metric-name-col">
+                        <span class="metric-name">IGF-1</span>
+                        <span class="metric-detail">Insulin-like growth factor</span>
                     </div>
-                    <div class="metric-value-container">
-                        <span class="metric-value">245</span>
-                        <span class="metric-unit">ng/mL</span>
+                    <div class="metric-value-col">245<span class="unit">ng/mL</span></div>
+                    <div class="metric-range-col">
+                        <div class="range-bar"><div class="range-fill optimal" style="width:68%"></div></div>
+                        <span class="range-text">115 – 307 ng/mL</span>
                     </div>
-                    <div class="metric-range">Reference: 115-307 ng/mL</div>
-                    <div class="metric-bar">
-                        <div class="metric-fill optimal" style="width: 75%;"></div>
-                    </div>
-                    <span class="metric-status optimal">● EXCELLENT</span>
+                    <div class="metric-status-col"><span class="status-badge optimal">Optimal</span></div>
                 </div>
 
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <span class="metric-name">TSH (Thyroid)</span>
-                        <span class="metric-icon">🦋</span>
+                <div class="metric-row">
+                    <div class="metric-name-col">
+                        <span class="metric-name">TSH</span>
+                        <span class="metric-detail">Thyroid-stimulating hormone</span>
                     </div>
-                    <div class="metric-value-container">
-                        <span class="metric-value">2.1</span>
-                        <span class="metric-unit">mIU/L</span>
+                    <div class="metric-value-col">2.1<span class="unit">mIU/L</span></div>
+                    <div class="metric-range-col">
+                        <div class="range-bar"><div class="range-fill optimal" style="width:47%"></div></div>
+                        <span class="range-text">0.4 – 4.0 mIU/L</span>
                     </div>
-                    <div class="metric-range">Reference: 0.4-4.0 mIU/L</div>
-                    <div class="metric-bar">
-                        <div class="metric-fill optimal" style="width: 55%;"></div>
-                    </div>
-                    <span class="metric-status optimal">● OPTIMAL</span>
+                    <div class="metric-status-col"><span class="status-badge optimal">Optimal</span></div>
                 </div>
 
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <span class="metric-name">Cortisol (AM)</span>
-                        <span class="metric-icon">😌</span>
+                <div class="metric-row">
+                    <div class="metric-name-col">
+                        <span class="metric-name">Cortisol, AM</span>
+                        <span class="metric-detail">Morning draw, 7:00–9:00</span>
                     </div>
-                    <div class="metric-value-container">
-                        <span class="metric-value">14.2</span>
-                        <span class="metric-unit">µg/dL</span>
+                    <div class="metric-value-col">14.2<span class="unit">µg/dL</span></div>
+                    <div class="metric-range-col">
+                        <div class="range-bar"><div class="range-fill optimal" style="width:68%"></div></div>
+                        <span class="range-text">6.0 – 18.0 µg/dL</span>
                     </div>
-                    <div class="metric-range">Reference: 6.0-18.0 µg/dL</div>
-                    <div class="metric-bar">
-                        <div class="metric-fill optimal" style="width: 68%;"></div>
-                    </div>
-                    <span class="metric-status optimal">● BALANCED</span>
+                    <div class="metric-status-col"><span class="status-badge optimal">Optimal</span></div>
                 </div>
             </div>
         </div>
 
-        <!-- Cardiovascular Panel -->
-        <div class="metrics-section">
-            <h2 class="section-header">❤️ Cardiovascular Markers</h2>
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <div class="metric-header">
+        <!-- Cardiovascular -->
+        <div class="section">
+            <h2 class="section-title">Cardiovascular Markers</h2>
+            <p class="section-subtitle">Lipid profile and systemic inflammation</p>
+
+            <div class="metric-table">
+                <div class="metric-row metric-row-header">
+                    <span>Biomarker</span>
+                    <span>Result</span>
+                    <span>Reference Range</span>
+                    <span style="text-align:right;">Status</span>
+                </div>
+
+                <div class="metric-row">
+                    <div class="metric-name-col">
                         <span class="metric-name">HDL Cholesterol</span>
-                        <span class="metric-icon">💚</span>
+                        <span class="metric-detail">High-density lipoprotein</span>
                     </div>
-                    <div class="metric-value-container">
-                        <span class="metric-value">62</span>
-                        <span class="metric-unit">mg/dL</span>
+                    <div class="metric-value-col">62<span class="unit">mg/dL</span></div>
+                    <div class="metric-range-col">
+                        <div class="range-bar"><div class="range-fill optimal" style="width:88%"></div></div>
+                        <span class="range-text">> 40 mg/dL desirable</span>
                     </div>
-                    <div class="metric-range">Reference: >40 mg/dL</div>
-                    <div class="metric-bar">
-                        <div class="metric-fill optimal" style="width: 92%;"></div>
-                    </div>
-                    <span class="metric-status optimal">● EXCELLENT</span>
+                    <div class="metric-status-col"><span class="status-badge optimal">Optimal</span></div>
                 </div>
 
-                <div class="metric-card">
-                    <div class="metric-header">
+                <div class="metric-row">
+                    <div class="metric-name-col">
                         <span class="metric-name">LDL Cholesterol</span>
-                        <span class="metric-icon">⚠️</span>
+                        <span class="metric-detail">Low-density lipoprotein, calculated</span>
                     </div>
-                    <div class="metric-value-container">
-                        <span class="metric-value">118</span>
-                        <span class="metric-unit">mg/dL</span>
+                    <div class="metric-value-col">118<span class="unit">mg/dL</span></div>
+                    <div class="metric-range-col">
+                        <div class="range-bar"><div class="range-fill elevated" style="width:62%"></div></div>
+                        <span class="range-text">&lt; 100 mg/dL optimal</span>
                     </div>
-                    <div class="metric-range">Optimal: <100 mg/dL</div>
-                    <div class="metric-bar">
-                        <div class="metric-fill elevated" style="width: 65%;"></div>
-                    </div>
-                    <span class="metric-status elevated">● SLIGHTLY ELEVATED</span>
+                    <div class="metric-status-col"><span class="status-badge elevated">Elevated</span></div>
                 </div>
 
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <span class="metric-name">C-Reactive Protein</span>
-                        <span class="metric-icon">🔥</span>
+                <div class="metric-row">
+                    <div class="metric-name-col">
+                        <span class="metric-name">hs-CRP</span>
+                        <span class="metric-detail">High-sensitivity C-reactive protein</span>
                     </div>
-                    <div class="metric-value-container">
-                        <span class="metric-value">0.8</span>
-                        <span class="metric-unit">mg/L</span>
+                    <div class="metric-value-col">0.8<span class="unit">mg/L</span></div>
+                    <div class="metric-range-col">
+                        <div class="range-bar"><div class="range-fill optimal" style="width:18%"></div></div>
+                        <span class="range-text">&lt; 1.0 mg/L low risk</span>
                     </div>
-                    <div class="metric-range">Reference: <1.0 mg/L</div>
-                    <div class="metric-bar">
-                        <div class="metric-fill optimal" style="width: 20%;"></div>
-                    </div>
-                    <span class="metric-status optimal">● LOW INFLAMMATION</span>
+                    <div class="metric-status-col"><span class="status-badge optimal">Low Risk</span></div>
                 </div>
             </div>
         </div>
 
-        <!-- Metabolic Panel -->
-        <div class="metrics-section">
-            <h2 class="section-header">🔬 Metabolic & Nutritional</h2>
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <span class="metric-name">Vitamin D (25-OH)</span>
-                        <span class="metric-icon">☀️</span>
-                    </div>
-                    <div class="metric-value-container">
-                        <span class="metric-value">68</span>
-                        <span class="metric-unit">ng/mL</span>
-                    </div>
-                    <div class="metric-range">Reference: 30-100 ng/mL</div>
-                    <div class="metric-bar">
-                        <div class="metric-fill optimal" style="width: 68%;"></div>
-                    </div>
-                    <span class="metric-status optimal">● OPTIMAL</span>
+        <!-- Metabolic -->
+        <div class="section">
+            <h2 class="section-title">Metabolic and Nutritional</h2>
+            <p class="section-subtitle">Glucose regulation, oxygen transport, and micronutrient status</p>
+
+            <div class="metric-table">
+                <div class="metric-row metric-row-header">
+                    <span>Biomarker</span>
+                    <span>Result</span>
+                    <span>Reference Range</span>
+                    <span style="text-align:right;">Status</span>
                 </div>
 
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <span class="metric-name">HbA1c (Glucose Control)</span>
-                        <span class="metric-icon">🍬</span>
+                <div class="metric-row">
+                    <div class="metric-name-col">
+                        <span class="metric-name">25-Hydroxyvitamin D</span>
+                        <span class="metric-detail">Vitamin D status</span>
                     </div>
-                    <div class="metric-value-container">
-                        <span class="metric-value">5.1</span>
-                        <span class="metric-unit">%</span>
+                    <div class="metric-value-col">68<span class="unit">ng/mL</span></div>
+                    <div class="metric-range-col">
+                        <div class="range-bar"><div class="range-fill optimal" style="width:68%"></div></div>
+                        <span class="range-text">30 – 100 ng/mL</span>
                     </div>
-                    <div class="metric-range">Reference: <5.7% normal</div>
-                    <div class="metric-bar">
-                        <div class="metric-fill optimal" style="width: 30%;"></div>
-                    </div>
-                    <span class="metric-status optimal">● EXCELLENT</span>
+                    <div class="metric-status-col"><span class="status-badge optimal">Optimal</span></div>
                 </div>
 
-                <div class="metric-card">
-                    <div class="metric-header">
+                <div class="metric-row">
+                    <div class="metric-name-col">
+                        <span class="metric-name">HbA1c</span>
+                        <span class="metric-detail">Glycated hemoglobin, 90-day average</span>
+                    </div>
+                    <div class="metric-value-col">5.1<span class="unit">%</span></div>
+                    <div class="metric-range-col">
+                        <div class="range-bar"><div class="range-fill optimal" style="width:32%"></div></div>
+                        <span class="range-text">&lt; 5.7% normal</span>
+                    </div>
+                    <div class="metric-status-col"><span class="status-badge optimal">Optimal</span></div>
+                </div>
+
+                <div class="metric-row">
+                    <div class="metric-name-col">
                         <span class="metric-name">Hemoglobin</span>
-                        <span class="metric-icon">🩸</span>
+                        <span class="metric-detail">Complete blood count</span>
                     </div>
-                    <div class="metric-value-container">
-                        <span class="metric-value">15.8</span>
-                        <span class="metric-unit">g/dL</span>
+                    <div class="metric-value-col">15.8<span class="unit">g/dL</span></div>
+                    <div class="metric-range-col">
+                        <div class="range-bar"><div class="range-fill optimal" style="width:72%"></div></div>
+                        <span class="range-text">13.5 – 17.5 g/dL</span>
                     </div>
-                    <div class="metric-range">Reference: 13.5-17.5 g/dL</div>
-                    <div class="metric-bar">
-                        <div class="metric-fill optimal" style="width: 78%;"></div>
-                    </div>
-                    <span class="metric-status optimal">● OPTIMAL</span>
+                    <div class="metric-status-col"><span class="status-badge optimal">Optimal</span></div>
                 </div>
             </div>
         </div>
 
-        <!-- Recommendations -->
-        <div class="recommendations">
-            <h2 class="section-header">💡 Clinical Recommendations</h2>
+        <!-- Clinical Notes -->
+        <div class="section">
+            <h2 class="section-title">Clinical Recommendations</h2>
+            <p class="section-subtitle">Prioritized interventions and monitoring schedule</p>
 
-            <div class="recommendation-item">
-                <div class="recommendation-title">🥗 LDL Cholesterol Management</div>
-                <div class="recommendation-text">
-                    Current LDL at 118 mg/dL is slightly above optimal. Consider increasing omega-3 fatty acid intake (2-3g/day), adding plant sterols, and reducing saturated fat intake. Re-test in 8-12 weeks to monitor response.
+            <div class="clinical-notes">
+                <div class="note-item">
+                    <div class="note-priority high">Priority — Lipid Management</div>
+                    <div class="note-title">LDL Cholesterol: Targeted Reduction</div>
+                    <div class="note-text">
+                        Current LDL at 118 mg/dL exceeds the optimal threshold of 100 mg/dL. Initiate omega-3 fatty acid supplementation at 2–3 g/day, increase soluble fiber intake, and consider plant sterol incorporation. Re-evaluate in 90 days. If non-responsive, consider advanced lipid particle testing (ApoB, Lp(a), NMR LipoProfile) to assess true atherogenic burden before pharmacological intervention.
+                    </div>
                 </div>
-            </div>
 
-            <div class="recommendation-item">
-                <div class="recommendation-title">💪 Continue Current Training Protocol</div>
-                <div class="recommendation-text">
-                    Testosterone, IGF-1, and cortisol levels indicate excellent adaptation to training stress. Maintain current progressive overload strategy and recovery protocols.
+                <div class="note-item">
+                    <div class="note-priority routine">Routine — Hormonal Maintenance</div>
+                    <div class="note-title">Endocrine Function: Continue Current Protocol</div>
+                    <div class="note-text">
+                        Testosterone, IGF-1, thyroid, and cortisol levels demonstrate excellent homeostasis. No modification to current supplementation, training, or lifestyle protocols is indicated. Annual monitoring sufficient unless symptomatic changes arise.
+                    </div>
                 </div>
-            </div>
 
-            <div class="recommendation-item">
-                <div class="recommendation-title">☀️ Vitamin D Maintenance</div>
-                <div class="recommendation-text">
-                    Current levels are optimal at 68 ng/mL. Continue supplementation during winter months (2000-4000 IU/day) to maintain levels above 50 ng/mL year-round.
+                <div class="note-item">
+                    <div class="note-priority routine">Routine — Seasonal Monitoring</div>
+                    <div class="note-title">Vitamin D: Maintain Supplementation</div>
+                    <div class="note-text">
+                        25-OH Vitamin D at 68 ng/mL is well within optimal range. Recommend continued supplementation of 2,000–4,000 IU daily during months with reduced sun exposure to maintain levels above 50 ng/mL year-round.
+                    </div>
                 </div>
-            </div>
 
-            <div class="recommendation-item">
-                <div class="recommendation-title">🔬 Advanced Testing Options</div>
-                <div class="recommendation-text">
-                    Consider adding ApoB, Lp(a), and advanced lipid particle testing for comprehensive cardiovascular risk assessment. DEXA scan recommended for body composition baseline.
+                <div class="note-item">
+                    <div class="note-priority routine">Routine — Advanced Screening</div>
+                    <div class="note-title">Recommended Additional Testing</div>
+                    <div class="note-text">
+                        For comprehensive cardiovascular risk stratification, consider: ApoB, Lipoprotein(a), coronary artery calcium score, and CIMT. For body composition optimization, DEXA scan with visceral adipose quantification is recommended. Genomic methylation panels may provide additional longevity insights.
+                    </div>
                 </div>
-            </div>
 
-            <div class="recommendation-item">
-                <div class="recommendation-title">📊 Monitoring Schedule</div>
-                <div class="recommendation-text">
-                    Recommend comprehensive re-testing in 3 months to assess LDL response to interventions. Annual comprehensive panels thereafter if markers remain stable.
+                <div class="note-item">
+                    <div class="note-priority routine">Follow-Up Schedule</div>
+                    <div class="note-title">Next Assessment: July 2026</div>
+                    <div class="note-text">
+                        Comprehensive re-testing in 90 days to assess LDL response to intervention. If all markers remain stable, transition to semi-annual comprehensive panels with quarterly targeted lipid checks.
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Actions -->
-        <div class="actions">
-            <button class="btn btn-primary">📄 Download Full Report (PDF)</button>
-            <button class="btn btn-primary">📧 Email to Physician</button>
-            <button class="btn btn-secondary">📈 Track Trends Over Time</button>
-            <button class="btn btn-secondary">🔄 Schedule Follow-up Testing</button>
-            <button class="btn btn-secondary">💬 Consult AI Assistant</button>
+        <div class="actions-bar">
+            <button class="btn btn-dark">Export Full Report</button>
+            <button class="btn btn-dark">Send to Physician</button>
+            <button class="btn btn-outline">View Historical Trends</button>
+            <button class="btn btn-outline">Schedule Follow-Up</button>
+            <button class="btn btn-outline">Request Advanced Panel</button>
         </div>
 
         <!-- Footer -->
         <div class="footer">
-            <p><strong>Elite Diagnostics</strong> • Precision Laboratory Services</p>
-            <p style="margin-top: 10px;">This report is for informational purposes only. Consult with a qualified healthcare provider for medical advice.</p>
-            <p style="margin-top: 5px; opacity: 0.7;">CLIA Certified • CAP Accredited • HIPAA Compliant</p>
+            <div class="footer-left">
+                Executive Health Intelligence<br>
+                CLIA Certified Laboratory &middot; CAP Accredited<br>
+                Results reviewed and approved by board-certified pathologist
+            </div>
+            <div class="footer-right">
+                This report is intended for the exclusive use of the patient<br>
+                and their designated healthcare provider.<br>
+                Not a substitute for professional medical advice.
+            </div>
         </div>
+
+        <div class="confidential">Confidential &mdash; Protected Health Information</div>
+
     </div>
 
     <script>
-        // Animate metric fills on page load
-        window.addEventListener('load', () => {
-            const fills = document.querySelectorAll('.metric-fill');
-            fills.forEach((fill, index) => {
-                const targetWidth = fill.style.width;
+        document.addEventListener('DOMContentLoaded', () => {
+            const fills = document.querySelectorAll('.range-fill');
+            fills.forEach((fill, i) => {
+                const w = fill.style.width;
                 fill.style.width = '0%';
-                setTimeout(() => {
-                    fill.style.width = targetWidth;
-                }, 100 + (index * 50));
-            });
-        });
-
-        // Button interactions
-        document.querySelectorAll('.btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                this.style.transform = 'scale(0.96)';
-                setTimeout(() => {
-                    this.style.transform = '';
-                }, 150);
-            });
-        });
-
-        // Metric card hover effects
-        document.querySelectorAll('.metric-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-4px)';
-            });
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = '';
+                setTimeout(() => { fill.style.width = w; }, 80 + i * 60);
             });
         });
     </script>
