@@ -3,206 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RFP Top-10 Social One-Pager</title>
+    <title>RFP — Social One-Pager</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: #f5f5f5;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-
-        .artifact-container {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            padding: 40px;
-            max-width: 1200px;
-            width: 100%;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 2rem;
-        }
-
-        .meta {
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .svg-display {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            border-radius: 8px;
-            padding: 40px;
-            margin-bottom: 30px;
-            min-height: 400px;
-        }
-
-        .svg-display img {
-            max-width: 100%;
-            height: auto;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-            border-radius: 4px;
-        }
-
-        .actions {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 12px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            display: inline-block;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(245, 87, 108, 0.5);
-        }
-
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background: #5a6268;
-            transform: translateY(-2px);
-        }
-
-        .info {
-            background: #fff4e6;
-            border-left: 4px solid #ff9800;
-            padding: 15px;
-            margin-top: 30px;
-            border-radius: 4px;
-        }
-
-        .info h3 {
-            margin-bottom: 10px;
-            color: #f57c00;
-        }
-
-        .info ul {
-            margin-left: 20px;
-            color: #555;
-        }
-
-        .info li {
-            margin-bottom: 5px;
-        }
-
-        .social-meta {
-            background: #e8f5e9;
-            border-left: 4px solid #4caf50;
-            padding: 15px;
-            margin-top: 20px;
-            border-radius: 4px;
-        }
-
-        .social-meta h3 {
-            margin-bottom: 10px;
-            color: #2e7d32;
-        }
-
-        .social-meta p {
-            color: #555;
-            line-height: 1.6;
-        }
-
-        .ruo {
-            background: #fff3cd;
-            border: 2px solid #ffc107;
-            padding: 15px;
-            margin-top: 20px;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: 600;
-            color: #856404;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap');
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { -webkit-font-smoothing: antialiased; }
+        body { font-family: 'Inter', sans-serif; background: #f9f8f6; color: #2c2a26; }
+        .page { max-width: 1000px; margin: 0 auto; padding: 60px 40px 80px; }
+        .back { font-size: 0.82rem; color: #9e9a92; text-decoration: none; display: inline-block; margin-bottom: 32px; }
+        .back:hover { color: #2c2a26; }
+        h1 { font-family: 'Source Serif 4', Georgia, serif; font-size: 2rem; font-weight: 700; color: #1a1917; margin-bottom: 6px; }
+        .meta { font-size: 0.85rem; color: #9e9a92; margin-bottom: 40px; }
+        .preview { background: #ffffff; border: 1px solid #e8e6e1; border-radius: 2px; padding: 32px; display: flex; justify-content: center; margin-bottom: 32px; }
+        .preview img { max-width: 100%; height: auto; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+        .specs { background: #ffffff; border: 1px solid #e8e6e1; border-radius: 2px; padding: 28px 32px; margin-bottom: 32px; }
+        .specs-label { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #9e9a92; margin-bottom: 16px; }
+        .specs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+        .spec-item-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #9e9a92; margin-bottom: 4px; }
+        .spec-item-value { font-size: 0.9rem; color: #2c2a26; }
+        .caption { background: #ffffff; border: 1px solid #e8e6e1; border-radius: 2px; padding: 28px 32px; margin-bottom: 32px; }
+        .caption p { font-size: 0.9rem; color: #6b6760; line-height: 1.7; font-style: italic; }
+        .actions { display: flex; gap: 10px; }
+        .btn { padding: 12px 24px; font-size: 0.82rem; font-weight: 600; border-radius: 2px; border: none; cursor: pointer; text-decoration: none; display: inline-block; }
+        .btn-dark { background: #1a1917; color: #fff; }
+        .btn-dark:hover { background: #2c2a26; }
+        .btn-outline { background: #fff; color: #2c2a26; border: 1px solid #c4c0b9; }
+        .btn-outline:hover { border-color: #2c2a26; }
+        .ruo { margin-top: 40px; font-size: 0.8rem; color: #9e9a92; text-align: center; }
     </style>
 </head>
 <body>
-    <div class="artifact-container">
-        <div class="header">
-            <h1>📱 Social One-Pager Artifact</h1>
-            <p class="meta">1080 × 1350 px • Self-Contained SVG • Social Media Ready</p>
+    <div class="page">
+        <a href="index.html" class="back">&larr; Back to gallery</a>
+        <h1>Social One-Pager</h1>
+        <p class="meta">1080 &times; 1350 px &middot; Self-contained SVG &middot; Single-column layout</p>
+
+        <div class="preview">
+            <img src="out/RFP_Top10_Social.svg" alt="RFP Top 10 Social One-Pager">
         </div>
 
-        <div class="svg-display">
-            <img src="out/RFP_Top10_Social.svg" alt="RFP Top 10 Research Peptides Social One-Pager">
+        <div class="specs">
+            <div class="specs-label">Specifications</div>
+            <div class="specs-grid">
+                <div><div class="spec-item-label">Dimensions</div><div class="spec-item-value">1080 &times; 1350 px</div></div>
+                <div><div class="spec-item-label">Format</div><div class="spec-item-value">Self-contained SVG</div></div>
+                <div><div class="spec-item-label">Assets</div><div class="spec-item-value">Base64-embedded</div></div>
+                <div><div class="spec-item-label">Layout</div><div class="spec-item-value">Single-column list</div></div>
+                <div><div class="spec-item-label">Use Case</div><div class="spec-item-value">Instagram, Facebook, LinkedIn</div></div>
+                <div><div class="spec-item-label">Text</div><div class="spec-item-value">Fully selectable</div></div>
+            </div>
+        </div>
+
+        <div class="caption">
+            <div class="specs-label">Suggested Caption</div>
+            <p>Our Top 10 research peptides snapshot. RUO only — not for human or veterinary use. ribbonfoldedpeptides.com</p>
         </div>
 
         <div class="actions">
-            <a href="out/RFP_Top10_Social.svg" download class="btn btn-primary">⬇️ Download SVG</a>
-            <a href="out/RFP_Top10_Social.svg" target="_blank" class="btn btn-secondary">🔍 Open in New Tab</a>
-            <a href="index.html" class="btn btn-secondary">← Back to Gallery</a>
+            <a href="out/RFP_Top10_Social.svg" download class="btn btn-dark">Download SVG</a>
+            <a href="out/RFP_Top10_Social.svg" target="_blank" class="btn btn-outline">Open in New Tab</a>
         </div>
 
-        <div class="info">
-            <h3>📋 Specifications</h3>
-            <ul>
-                <li><strong>Dimensions:</strong> 1080 × 1350 pixels (Instagram portrait)</li>
-                <li><strong>Format:</strong> Self-contained SVG with base64-embedded assets</li>
-                <li><strong>Assets:</strong> Production logo (475 KB) + vial PNG (659 KB)</li>
-                <li><strong>File Size:</strong> ~1.5 MB (includes embedded images)</li>
-                <li><strong>Layout:</strong> Single-column peptide list, mobile-optimized</li>
-                <li><strong>Use Case:</strong> Instagram, Facebook, LinkedIn, social media posts</li>
-            </ul>
-        </div>
-
-        <div class="info">
-            <h3>🎨 Design Features</h3>
-            <ul>
-                <li>Background gradient: #B8B9B7 (TL) → #D0D1CF (BR)</li>
-                <li>Grain overlay: baseFrequency 0.8, opacity 0.01</li>
-                <li>Hero "10" at 10% opacity, 620pt font size</li>
-                <li>Vial shadow with Gaussian blur</li>
-                <li>All text selectable (not rasterized)</li>
-                <li>Font: Montserrat, Arial, sans-serif</li>
-            </ul>
-        </div>
-
-        <div class="social-meta">
-            <h3>📱 Suggested Social Caption</h3>
-            <p><em>Our Top 10 research peptides snapshot. RUO only — not for human or veterinary use. ribbonfoldedpeptides.com</em></p>
-        </div>
-
-        <div class="ruo">
-            ⚠️ For Research Use Only (RUO). Not for human or veterinary use.
-        </div>
+        <p class="ruo">For Research Use Only (RUO). Not for human or veterinary use.</p>
     </div>
 </body>
 </html>

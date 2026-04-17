@@ -3,260 +3,296 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RFP Top-10 Research Peptides One-Pager</title>
+    <title>RFP — Top 10 Research Peptides</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap');
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --white: #ffffff;
+            --warm-gray-50: #f9f8f6;
+            --warm-gray-100: #f0eeeb;
+            --warm-gray-200: #e0ddd8;
+            --warm-gray-300: #c4c0b9;
+            --warm-gray-400: #9e9a92;
+            --warm-gray-500: #6b6760;
+            --charcoal: #2c2a26;
+            --black: #1a1917;
+            --rule: #e8e6e1;
+            --accent: #1a4480;
         }
+
+        html { font-size: 16px; -webkit-font-smoothing: antialiased; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 2rem;
-            color: #333;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--warm-gray-50);
+            color: var(--charcoal);
+            line-height: 1.6;
         }
 
-        .container {
-            max-width: 1400px;
+        .page {
+            max-width: 1200px;
             margin: 0 auto;
+            padding: 60px 40px 80px;
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 3rem;
-            color: white;
+        .masthead {
+            border-bottom: 1px solid var(--rule);
+            padding-bottom: 40px;
+            margin-bottom: 48px;
+        }
+
+        .practice-name {
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--warm-gray-400);
+            margin-bottom: 20px;
         }
 
         h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 2.4rem;
             font-weight: 700;
+            color: var(--black);
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin-bottom: 8px;
         }
 
         .subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            margin-bottom: 1rem;
+            font-size: 1.05rem;
+            color: var(--warm-gray-500);
         }
 
-        .marketing-copy {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 1.5rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-        }
-
-        .marketing-copy h2 {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            color: #667eea;
-        }
-
-        .marketing-copy p {
-            line-height: 1.6;
-            margin-bottom: 0.5rem;
-        }
-
-        .marketing-copy strong {
-            color: #764ba2;
-        }
-
-        .svgs-container {
+        .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
+            gap: 30px;
+            margin-bottom: 48px;
         }
 
-        .svg-card {
-            background: white;
-            border-radius: 16px;
-            padding: 2rem;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .svg-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 80px rgba(0,0,0,0.2);
-        }
-
-        .svg-card h2 {
-            margin-bottom: 1rem;
-            color: #667eea;
-            font-size: 1.5rem;
-        }
-
-        .svg-specs {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 1rem;
-            padding: 0.5rem;
-            background: #f5f5f5;
-            border-radius: 6px;
-        }
-
-        .svg-wrapper {
-            background: #f9f9f9;
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1rem;
+        .card {
+            background: var(--white);
+            border: 1px solid var(--rule);
+            border-radius: 2px;
             overflow: hidden;
+            transition: box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+
+        .card-header {
+            padding: 24px 28px;
+            border-bottom: 1px solid var(--warm-gray-100);
+        }
+
+        .card-title {
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--black);
+            margin-bottom: 4px;
+        }
+
+        .card-meta {
+            font-size: 0.8rem;
+            color: var(--warm-gray-400);
+        }
+
+        .card-preview {
+            padding: 24px;
+            background: var(--warm-gray-50);
             display: flex;
             justify-content: center;
             align-items: center;
+            min-height: 320px;
         }
 
-        .svg-wrapper img {
+        .card-preview img {
             max-width: 100%;
             height: auto;
-            display: block;
-            border-radius: 4px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            max-height: 400px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
         }
 
-        .download-btn {
-            display: inline-block;
-            padding: 0.75rem 1.5rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .download-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
-        }
-
-        .downloads {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            text-align: center;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-        }
-
-        .downloads h2 {
-            margin-bottom: 1.5rem;
-            color: #667eea;
-        }
-
-        .download-links {
+        .card-actions {
+            padding: 20px 28px;
             display: flex;
-            gap: 1rem;
-            justify-content: center;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
-        footer {
-            text-align: center;
-            margin-top: 3rem;
-            color: white;
-            opacity: 0.9;
+        .btn {
+            padding: 10px 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 2px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.15s ease;
+        }
+
+        .btn-dark {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .btn-dark:hover { background: var(--charcoal); }
+
+        .btn-outline {
+            background: var(--white);
+            color: var(--charcoal);
+            border: 1px solid var(--warm-gray-300);
+        }
+
+        .btn-outline:hover { border-color: var(--charcoal); }
+
+        .copy-section {
+            background: var(--white);
+            border: 1px solid var(--rule);
+            border-radius: 2px;
+            padding: 36px 40px;
+            margin-bottom: 48px;
+        }
+
+        .section-label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--warm-gray-400);
+            margin-bottom: 16px;
+        }
+
+        .copy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+        }
+
+        .copy-item-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--warm-gray-400);
+            margin-bottom: 8px;
+        }
+
+        .copy-item-text {
             font-size: 0.9rem;
+            color: var(--charcoal);
+            line-height: 1.6;
         }
 
         .ruo-notice {
-            background: #fff3cd;
-            border: 2px solid #ffc107;
-            border-radius: 8px;
-            padding: 1rem;
-            margin-top: 1rem;
-            font-size: 0.9rem;
-            color: #856404;
-            font-weight: 600;
+            background: var(--warm-gray-100);
+            border-left: 3px solid var(--warm-gray-300);
+            padding: 16px 24px;
+            margin-top: 24px;
+            font-size: 0.85rem;
+            color: var(--warm-gray-500);
+            font-weight: 500;
+        }
+
+        .footer {
+            margin-top: 64px;
+            padding-top: 32px;
+            border-top: 1px solid var(--rule);
+            font-size: 0.75rem;
+            color: var(--warm-gray-400);
+            text-align: center;
+            line-height: 1.8;
         }
 
         @media (max-width: 768px) {
-            .svgs-container {
-                grid-template-columns: 1fr;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .subtitle {
-                font-size: 1rem;
-            }
+            .page { padding: 30px 20px; }
+            h1 { font-size: 1.8rem; }
+            .cards-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🧬 RFP Top-10 Research Peptides</h1>
-            <p class="subtitle">Investigational Compounds for Body Recomposition Research</p>
-        </header>
+    <div class="page">
 
-        <div class="marketing-copy">
-            <h2>📧 Email Subject</h2>
-            <p><strong>Top 10 Research Peptides — RUO Overview</strong></p>
-
-            <h2 style="margin-top: 1.5rem;">📝 Preheader</h2>
-            <p>Investigational RUO compounds for body composition research.</p>
-
-            <h2 style="margin-top: 1.5rem;">🌐 Social Caption</h2>
-            <p>Our Top 10 research peptides snapshot. RUO only — not for human or veterinary use. ribbonfoldedpeptides.com</p>
-
-            <h2 style="margin-top: 1.5rem;">♿ Alt Text</h2>
-            <p><em>Ribbon Folded Peptides — Top 10 research peptides (KLOW, GLOW, BPC-157, TB-500, GHK-Cu, KPV, MOTS-C, AOD-9604, PT-141, IGF-1 LR3). RUO.</em></p>
-
-            <div class="ruo-notice">
-                ⚠️ For Research Use Only (RUO). Not for human or veterinary use.
-            </div>
+        <div class="masthead">
+            <div class="practice-name">Ribbon Folded Peptides</div>
+            <h1>Top 10 Research Peptides</h1>
+            <p class="subtitle">Investigational compounds for metabolic, recovery, and cellular pathway research.</p>
         </div>
 
-        <div class="svgs-container">
-            <div class="svg-card">
-                <h2>📧 Email One-Pager</h2>
-                <div class="svg-specs">
-                    <strong>Dimensions:</strong> 1200 × 1800 px<br>
-                    <strong>Format:</strong> Self-contained SVG<br>
-                    <strong>Use:</strong> Email campaigns, newsletters
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Email One-Pager</div>
+                    <div class="card-meta">1200 &times; 1800 px &middot; Self-contained SVG &middot; Two-column layout</div>
                 </div>
-                <div class="svg-wrapper">
+                <div class="card-preview">
                     <img src="out/RFP_Top10_Email.svg" alt="RFP Top 10 Email One-Pager">
                 </div>
-                <a href="email-artifact.html" class="download-btn" style="background: #28a745;">👁️ View Artifact</a>
-                <a href="out/RFP_Top10_Email.svg" download class="download-btn">⬇️ Download SVG</a>
+                <div class="card-actions">
+                    <a href="email-artifact.html" class="btn btn-dark">View Full Size</a>
+                    <a href="out/RFP_Top10_Email.svg" download class="btn btn-outline">Download SVG</a>
+                </div>
             </div>
 
-            <div class="svg-card">
-                <h2>📱 Social One-Pager</h2>
-                <div class="svg-specs">
-                    <strong>Dimensions:</strong> 1080 × 1350 px<br>
-                    <strong>Format:</strong> Self-contained SVG<br>
-                    <strong>Use:</strong> Instagram, Facebook, social media
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Social One-Pager</div>
+                    <div class="card-meta">1080 &times; 1350 px &middot; Self-contained SVG &middot; Single-column layout</div>
                 </div>
-                <div class="svg-wrapper">
+                <div class="card-preview">
                     <img src="out/RFP_Top10_Social.svg" alt="RFP Top 10 Social One-Pager">
                 </div>
-                <a href="social-artifact.html" class="download-btn" style="background: #28a745;">👁️ View Artifact</a>
-                <a href="out/RFP_Top10_Social.svg" download class="download-btn">⬇️ Download SVG</a>
+                <div class="card-actions">
+                    <a href="social-artifact.html" class="btn btn-dark">View Full Size</a>
+                    <a href="out/RFP_Top10_Social.svg" download class="btn btn-outline">Download SVG</a>
+                </div>
             </div>
         </div>
 
-        <div class="downloads">
-            <h2>📦 Complete Package</h2>
-            <div class="download-links">
-                <a href="../rfp_onepager.zip" download class="download-btn">⬇️ Download Complete ZIP (2.5 MB)</a>
-                <a href="README.md" class="download-btn" style="background: #6c757d;">📖 Read Documentation</a>
+        <div class="copy-section">
+            <div class="section-label">Marketing Copy</div>
+            <div class="copy-grid">
+                <div>
+                    <div class="copy-item-label">Email Subject</div>
+                    <div class="copy-item-text">Top 10 Research Peptides — RUO Overview</div>
+                </div>
+                <div>
+                    <div class="copy-item-label">Email Preheader</div>
+                    <div class="copy-item-text">Investigational RUO compounds for body composition research.</div>
+                </div>
+                <div>
+                    <div class="copy-item-label">Social Caption</div>
+                    <div class="copy-item-text">Our Top 10 research peptides snapshot. RUO only — not for human or veterinary use.</div>
+                </div>
+                <div>
+                    <div class="copy-item-label">Alt Text</div>
+                    <div class="copy-item-text">Ribbon Folded Peptides — Top 10 research peptides (KLOW, GLOW, BPC-157, TB-500, GHK-Cu, KPV, MOTS-C, AOD-9604, PT-141, IGF-1 LR3). RUO.</div>
+                </div>
+            </div>
+            <div class="ruo-notice">
+                For Research Use Only (RUO). Not for human or veterinary use.
             </div>
         </div>
 
-        <footer>
-            <p>Generated with production assets • Self-contained SVGs with base64-embedded images</p>
-            <p style="margin-top: 0.5rem;">Ribbon Folded Peptides © 2026 • For Research Use Only</p>
-        </footer>
+        <div style="text-align: center;">
+            <a href="../rfp_onepager.zip" download class="btn btn-dark">Download Complete Package</a>
+        </div>
+
+        <div class="footer">
+            Ribbon Folded Peptides &middot; For Research Use Only<br>
+            All assets self-contained with base64-embedded images
+        </div>
+
     </div>
 </body>
 </html>
