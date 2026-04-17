@@ -8,7 +8,7 @@
 
     <!-- Subtle grain overlay -->
     <filter id="grain">
-      <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="3" result="n"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" result="n"/>
       <feColorMatrix in="n" type="saturate" values="0"/>
       <feBlend in="SourceGraphic" in2="n" mode="multiply"/>
     </filter>
@@ -26,7 +26,7 @@
   <!-- Header -->
   <g id="header">
     <!-- Logo -->
-    <image href="{{LOGO_DATA}}" x="60" y="60" height="60"/>
+    <image href="{{LOGO_DATA}}" x="60" y="60" height="60" preserveAspectRatio="xMidYMid meet"/>
 
     <!-- Title -->
     <text x="600" y="110" font-family="Montserrat, Arial, sans-serif" font-size="54" font-weight="800" fill="#111111" text-anchor="middle">
@@ -54,7 +54,7 @@
   </text>
 
   <!-- Peptide List (Two columns) -->
-  <g id="peptideList" transform="translate(80, 1350)">
+  <g id="peptideList" transform="translate(0, 1360)">
     {{PEPTIDE_LIST}}
   </g>
 

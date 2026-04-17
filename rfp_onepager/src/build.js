@@ -65,18 +65,18 @@ function generateEmailList(peptides) {
 
   let svg = '';
 
-  // Left column
+  // Left column (x=200, step=36)
   leftColumn.forEach((peptide, index) => {
-    const y = index * 50;
-    svg += `    <text x="0" y="${y}" font-family="Montserrat, Arial, sans-serif" font-size="24" font-weight="600" fill="#111111">\n`;
+    const y = index * 36;
+    svg += `    <text x="200" y="${y}" font-family="Montserrat, Arial, sans-serif" font-size="24" font-weight="600" fill="#111111">\n`;
     svg += `      ${index + 1}. ${peptide.product_name} — ${peptide.dose}\n`;
     svg += `    </text>\n`;
   });
 
-  // Right column
+  // Right column (x=700, step=36)
   rightColumn.forEach((peptide, index) => {
-    const y = index * 50;
-    svg += `    <text x="540" y="${y}" font-family="Montserrat, Arial, sans-serif" font-size="24" font-weight="600" fill="#111111">\n`;
+    const y = index * 36;
+    svg += `    <text x="700" y="${y}" font-family="Montserrat, Arial, sans-serif" font-size="24" font-weight="600" fill="#111111">\n`;
     svg += `      ${index + 6}. ${peptide.product_name} — ${peptide.dose}\n`;
     svg += `    </text>\n`;
   });
@@ -88,9 +88,10 @@ function generateEmailList(peptides) {
 function generateSocialList(peptides) {
   let svg = '';
 
+  // Single column (x=160, step=34)
   peptides.forEach((peptide, index) => {
-    const y = index * 26;
-    svg += `    <text x="0" y="${y}" font-family="Montserrat, Arial, sans-serif" font-size="22" font-weight="600" fill="#111111">\n`;
+    const y = index * 34;
+    svg += `    <text x="160" y="${y}" font-family="Montserrat, Arial, sans-serif" font-size="22" font-weight="600" fill="#111111">\n`;
     svg += `      ${index + 1}. ${peptide.product_name} — ${peptide.dose}\n`;
     svg += `    </text>\n`;
   });
