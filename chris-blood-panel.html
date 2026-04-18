@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Panel Analysis — Chris R.</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Libre+Baskerville:wght@400;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --clinical-bg: #e8ecef;
+            --doc-white: #ffffff;
+            --doc-border: #d4dce3;
+            --text-primary: #1a1d21;
+            --text-secondary: #4a5568;
+            --text-muted: #6b7280;
+            --optimal: #059669;
+            --optimal-bg: #d1fae5;
+            --elevated: #d97706;
+            --elevated-bg: #fef3c7;
+            --critical: #dc2626;
+            --critical-bg: #fee2e2;
+            --rule: #e5e7eb;
+        }
+
+        html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: linear-gradient(135deg, #e0e7ed 0%, #f3f4f6 50%, #dfe6ec 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image:
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px);
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: -10%; right: -5%;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.04) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .document {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: var(--doc-white);
+            box-shadow:
+                0 4px 6px -1px rgba(0, 0, 0, 0.06),
+                0 10px 25px -3px rgba(0, 0, 0, 0.08),
+                0 0 0 1px rgba(0, 0, 0, 0.02);
+            position: relative;
+            z-index: 1;
+        }
+
+        .doc-header {
+            border-bottom: 3px solid var(--text-primary);
+            padding: 48px 60px 40px;
+        }
+
+        .doc-title {
+            font-family: 'Libre Baskerville', Georgia, serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+            margin-bottom: 8px;
+        }
+
+        .doc-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 28px;
+        }
+
+        .doc-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--rule);
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .meta-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+        }
+
+        .meta-value {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .status-summary {
+            padding: 32px 60px;
+            background: linear-gradient(to right, #f9fafb, #ffffff);
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .status-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .status-count {
+            font-size: 2.2rem;
+            font-weight: 700;
+            line-height: 1;
+            min-width: 50px;
+        }
+
+        .status-count.optimal { color: var(--optimal); }
+        .status-count.elevated { color: var(--elevated); }
+        .status-count.critical { color: var(--critical); }
+
+        .status-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .doc-body {
+            padding: 48px 60px 60px;
+        }
+
+        .section {
+            margin-bottom: 48px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            border-bottom: 2px solid var(--text-primary);
+            padding-bottom: 10px;
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-family: 'Libre Baskerville', Georgia, serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .section-tag {
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 8px;
+        }
+
+        .results-table thead {
+            background: #f9fafb;
+        }
+
+        .results-table th {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            text-align: left;
+            padding: 12px 16px;
+            border-bottom: 2px solid var(--rule);
+        }
+
+        .results-table td {
+            padding: 16px 16px;
+            border-bottom: 1px solid #f3f4f6;
+            font-size: 0.88rem;
+        }
+
+        .results-table tbody tr:hover {
+            background: #fafbfc;
+        }
+
+        .marker-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .marker-method {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            display: block;
+            margin-top: 2px;
+        }
+
+        .value-cell {
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+            color: var(--text-primary);
+        }
+
+        .unit-cell {
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+        }
+
+        .range-cell {
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .status-cell {
+            text-align: right;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            border-radius: 3px;
+        }
+
+        .status-badge.optimal {
+            background: var(--optimal-bg);
+            color: var(--optimal);
+        }
+
+        .status-badge.elevated {
+            background: var(--elevated-bg);
+            color: var(--elevated);
+        }
+
+        .status-badge.critical {
+            background: var(--critical-bg);
+            color: var(--critical);
+        }
+
+        .clinical-summary {
+            background: #f9fafb;
+            border-left: 4px solid var(--text-primary);
+            padding: 24px 28px;
+            margin-bottom: 48px;
+        }
+
+        .clinical-summary-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .clinical-summary-text {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            line-height: 1.75;
+        }
+
+        .clinical-summary-text strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .rec-item {
+            padding: 20px 24px;
+            border: 1px solid var(--rule);
+            border-left: 4px solid var(--text-secondary);
+            margin-bottom: 12px;
+            background: #fafbfc;
+        }
+
+        .rec-item.priority {
+            border-left-color: var(--elevated);
+            background: #fffbf5;
+        }
+
+        .rec-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .rec-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .rec-priority-badge {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 4px 10px;
+            border-radius: 3px;
+        }
+
+        .rec-priority-badge.high {
+            background: var(--elevated-bg);
+            color: var(--elevated);
+        }
+
+        .rec-priority-badge.routine {
+            background: #f3f4f6;
+            color: var(--text-muted);
+        }
+
+        .rec-text {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .doc-footer {
+            border-top: 1px solid var(--rule);
+            padding: 32px 60px;
+            background: #fafbfc;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 28px;
+            margin-bottom: 28px;
+        }
+
+        .footer-section-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .footer-text {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .footer-legal {
+            padding-top: 24px;
+            border-top: 1px solid var(--rule);
+            text-align: center;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        .footer-legal strong {
+            font-weight: 700;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 20px 10px; }
+            .doc-header, .status-summary, .doc-body, .doc-footer { padding-left: 30px; padding-right: 30px; }
+            .status-grid { grid-template-columns: 1fr; gap: 16px; }
+            .section-header { flex-direction: column; gap: 8px; align-items: flex-start; }
+            .doc-title { font-size: 1.6rem; }
+            .results-table { font-size: 0.8rem; }
+            .results-table th, .results-table td { padding: 10px 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="document">
+
+        <div class="doc-header">
+            <h1 class="doc-title">Comprehensive Blood Panel Analysis</h1>
+            <p class="doc-subtitle">Executive Health Intelligence — Full Biomarker Report</p>
+            <div class="doc-meta">
+                <div class="meta-item">
+                    <div class="meta-label">Patient Name</div>
+                    <div class="meta-value">Chris R.</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Patient ID</div>
+                    <div class="meta-value">EH-2026-04-CR-341</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Collection Date</div>
+                    <div class="meta-value">April 15, 2026</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Analysis Date</div>
+                    <div class="meta-value">April 16, 2026</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Reviewed By</div>
+                    <div class="meta-value">Dr. A. Richardson, MD</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="status-summary">
+            <div class="status-label">Overall Status</div>
+            <div class="status-grid">
+                <div class="status-item">
+                    <div class="status-count optimal">9</div>
+                    <div class="status-desc"><strong>Optimal</strong><br>Within target range</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-count elevated">1</div>
+                    <div class="status-desc"><strong>Elevated</strong><br>Requires attention</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-count critical">0</div>
+                    <div class="status-desc"><strong>Critical</strong><br>No urgent findings</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="doc-body">
+
+            <div class="clinical-summary">
+                <div class="clinical-summary-title">Clinical Interpretation</div>
+                <p class="clinical-summary-text">
+                    <strong>Overall assessment: Excellent athletic health with elevated cortisol suggesting stress or overtraining.</strong> Ten primary biomarkers evaluated across hormonal, cardiovascular, and metabolic panels. Cardiovascular markers are outstanding with exceptional lipid profile including HDL at 58 mg/dL, LDL at 71 mg/dL, and triglycerides at 68 mg/dL. Testosterone is robust at 821 ng/dL indicating strong anabolic capacity. IGF-1, thyroid, vitamin D, and metabolic markers all optimal. However, morning cortisol is elevated at 19.2 μg/dL, exceeding the upper reference limit of 18.0 μg/dL. This elevation suggests HPA axis activation from chronic stress, overtraining, insufficient recovery, or sleep disruption. Given the athletic profile and otherwise excellent markers, overtraining or inadequate recovery is the primary suspect. Recommend immediate implementation of recovery protocols, stress management techniques, and possible reduction in training volume. Recheck cortisol in 4-6 weeks to assess response to intervention.
+                </p>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Hormonal Panel</h2>
+                    <div class="section-tag">Endocrine Function</div>
+                </div>
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Biomarker</th>
+                            <th>Result</th>
+                            <th>Unit</th>
+                            <th>Reference Range</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><div class="marker-name">Total Testosterone</div><span class="marker-method">Serum, immunoassay</span></td>
+                            <td class="value-cell">821</td>
+                            <td class="unit-cell">ng/dL</td>
+                            <td class="range-cell">264 – 916</td>
+                            <td class="status-cell"><span class="status-badge optimal">Optimal</span></td>
+                        </tr>
+                        <tr>
+                            <td><div class="marker-name">IGF-1</div><span class="marker-method">Insulin-like growth factor</span></td>
+                            <td class="value-cell">246</td>
+                            <td class="unit-cell">ng/mL</td>
+                            <td class="range-cell">115 – 307</td>
+                            <td class="status-cell"><span class="status-badge optimal">Optimal</span></td>
+                        </tr>
+                        <tr>
+                            <td><div class="marker-name">TSH</div><span class="marker-method">Thyroid-stimulating hormone</span></td>
+                            <td class="value-cell">1.6</td>
+                            <td class="unit-cell">mIU/L</td>
+                            <td class="range-cell">0.4 – 4.0</td>
+                            <td class="status-cell"><span class="status-badge optimal">Optimal</span></td>
+                        </tr>
+                        <tr>
+                            <td><div class="marker-name">Cortisol, AM</div><span class="marker-method">Morning draw, 07:00–09:00</span></td>
+                            <td class="value-cell">19.2</td>
+                            <td class="unit-cell">μg/dL</td>
+                            <td class="range-cell">6.0 – 18.0</td>
+                            <td class="status-cell"><span class="status-badge elevated">Elevated</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Cardiovascular</h2>
+                    <div class="section-tag">Lipid Profile &amp; Inflammation</div>
+                </div>
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Biomarker</th>
+                            <th>Result</th>
+                            <th>Unit</th>
+                            <th>Reference Range</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><div class="marker-name">HDL Cholesterol</div><span class="marker-method">High-density lipoprotein</span></td>
+                            <td class="value-cell">58</td>
+                            <td class="unit-cell">mg/dL</td>
+                            <td class="range-cell">&gt; 40 (desirable)</td>
+                            <td class="status-cell"><span class="status-badge optimal">Optimal</span></td>
+                        </tr>
+                        <tr>
+                            <td><div class="marker-name">LDL Cholesterol</div><span class="marker-method">Low-density lipoprotein, calculated</span></td>
+                            <td class="value-cell">71</td>
+                            <td class="unit-cell">mg/dL</td>
+                            <td class="range-cell">&lt; 100 (optimal)</td>
+                            <td class="status-cell"><span class="status-badge optimal">Optimal</span></td>
+                        </tr>
+                        <tr>
+                            <td><div class="marker-name">Triglycerides</div><span class="marker-method">Fasting sample</span></td>
+                            <td class="value-cell">68</td>
+                            <td class="unit-cell">mg/dL</td>
+                            <td class="range-cell">&lt; 150 (normal)</td>
+                            <td class="status-cell"><span class="status-badge optimal">Optimal</span></td>
+                        </tr>
+                        <tr>
+                            <td><div class="marker-name">hs-CRP</div><span class="marker-method">High-sensitivity C-reactive protein</span></td>
+                            <td class="value-cell">0.6</td>
+                            <td class="unit-cell">mg/L</td>
+                            <td class="range-cell">&lt; 1.0 (low risk)</td>
+                            <td class="status-cell"><span class="status-badge optimal">Optimal</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Metabolic</h2>
+                    <div class="section-tag">Glucose &amp; Nutrition</div>
+                </div>
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Biomarker</th>
+                            <th>Result</th>
+                            <th>Unit</th>
+                            <th>Reference Range</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><div class="marker-name">25-Hydroxyvitamin D</div><span class="marker-method">Vitamin D status</span></td>
+                            <td class="value-cell">58</td>
+                            <td class="unit-cell">ng/mL</td>
+                            <td class="range-cell">30 – 100</td>
+                            <td class="status-cell"><span class="status-badge optimal">Optimal</span></td>
+                        </tr>
+                        <tr>
+                            <td><div class="marker-name">HbA1c</div><span class="marker-method">Glycated hemoglobin, 90-day average</span></td>
+                            <td class="value-cell">5.0</td>
+                            <td class="unit-cell">%</td>
+                            <td class="range-cell">&lt; 5.7 (normal)</td>
+                            <td class="status-cell"><span class="status-badge optimal">Optimal</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Clinical Recommendations</h2>
+                    <div class="section-tag">Prioritized Interventions</div>
+                </div>
+
+                <div class="rec-item priority">
+                    <div class="rec-header">
+                        <div class="rec-title">Elevated Cortisol — Stress Management & Recovery Protocol</div>
+                        <span class="rec-priority-badge high">Priority</span>
+                    </div>
+                    <p class="rec-text">
+                        Morning cortisol at 19.2 μg/dL exceeds the upper reference limit of 18.0 μg/dL, suggesting chronic HPA axis activation. Given your athletic profile and otherwise optimal biomarkers (including robust testosterone at 821 ng/dL), overtraining or insufficient recovery is the most likely etiology. Chronically elevated cortisol can impair muscle recovery, suppress immune function, disrupt sleep quality, increase injury risk, and eventually lead to HPA axis dysregulation or burnout. Immediate interventions: (1) Reduce total training volume by 20-30% for 4 weeks to assess response. (2) Prioritize sleep hygiene targeting 8+ hours nightly with consistent schedule. (3) Incorporate active recovery days and deload weeks into training periodization. (4) Implement stress management techniques including meditation, breathwork, or mindfulness practice 10-15 minutes daily. (5) Consider phosphatidylserine supplementation (400-600 mg/day) to modulate cortisol response. (6) Evaluate and optimize nutrition periodization, ensuring adequate caloric intake and carbohydrate timing around training. Recheck morning cortisol and consider 4-point salivary cortisol curve in 4-6 weeks to assess rhythm and response to intervention. If elevation persists despite recovery protocols, consider endocrinology consultation to rule out other etiologies.
+                    </p>
+                </div>
+
+                <div class="rec-item">
+                    <div class="rec-header">
+                        <div class="rec-title">Anabolic Status — Excellent Hormonal Profile</div>
+                        <span class="rec-priority-badge routine">Maintenance</span>
+                    </div>
+                    <p class="rec-text">
+                        Testosterone at 821 ng/dL and IGF-1 at 246 ng/mL are both in excellent ranges for athletic performance and recovery capacity. This strong anabolic profile will support muscle synthesis, strength gains, and metabolic health. Maintain current resistance training protocol and optimize nutrition to support these levels. Annual monitoring recommended to track long-term trends, particularly as training volume is adjusted to address cortisol elevation.
+                    </p>
+                </div>
+
+                <div class="rec-item">
+                    <div class="rec-header">
+                        <div class="rec-title">Cardiovascular Health — Outstanding Lipid Profile</div>
+                        <span class="rec-priority-badge routine">Maintenance</span>
+                    </div>
+                    <p class="rec-text">
+                        Lipid panel is exceptional with HDL at 58 mg/dL, LDL at 71 mg/dL, and triglycerides at 68 mg/dL. hs-CRP at 0.6 mg/L indicates low systemic inflammation despite high training volume. Cardiovascular risk profile is very low. Current dietary approach and aerobic conditioning are clearly effective. Continue current protocol. Annual monitoring sufficient.
+                    </p>
+                </div>
+
+                <div class="rec-item">
+                    <div class="rec-header">
+                        <div class="rec-title">Metabolic Health — Optimal Glucose Regulation</div>
+                        <span class="rec-priority-badge routine">Maintenance</span>
+                    </div>
+                    <p class="rec-text">
+                        HbA1c at 5.0% is excellent and indicates superior insulin sensitivity and glucose control. Vitamin D at 58 ng/mL is in optimal range for immune function, recovery, and performance. Metabolic function is outstanding. Continue balanced macronutrient intake with adequate carbohydrate periodization to support training demands and recovery. No modifications indicated.
+                    </p>
+                </div>
+
+                <div class="rec-item">
+                    <div class="rec-header">
+                        <div class="rec-title">Thyroid Function — Optimal Status</div>
+                        <span class="rec-priority-badge routine">Maintenance</span>
+                    </div>
+                    <p class="rec-text">
+                        TSH at 1.6 mIU/L reflects healthy thyroid function with no signs of suppression from overtraining or metabolic stress. Thyroid status is optimal. Annual monitoring recommended to ensure continued adequacy, particularly if training volume changes significantly.
+                    </p>
+                </div>
+
+                <div class="rec-item">
+                    <div class="rec-header">
+                        <div class="rec-title">Follow-Up Schedule</div>
+                        <span class="rec-priority-badge routine">Timeline</span>
+                    </div>
+                    <p class="rec-text">
+                        Priority follow-up: recheck morning cortisol in 4-6 weeks after implementing recovery and stress management interventions. Target: cortisol below 18.0 μg/dL. Consider 4-point salivary cortisol testing to assess diurnal rhythm if morning sample remains elevated. Given excellent status of all other biomarkers, full comprehensive panel can be repeated in 6 months or after completing recovery protocol and returning to full training volume. If cortisol normalizes as expected, transition to annual monitoring. Track subjective recovery metrics (sleep quality, training motivation, mood, performance) alongside objective markers.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="doc-footer">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-section-title">Laboratory Certification</div>
+                    <p class="footer-text">
+                        CLIA Certified<br>
+                        CAP Accredited Laboratory<br>
+                        Board-Certified Pathologist Review
+                    </p>
+                </div>
+                <div>
+                    <div class="footer-section-title">Physician Contact</div>
+                    <p class="footer-text">
+                        Dr. Alexandra Richardson, MD<br>
+                        Executive Health Intelligence<br>
+                        questions@executivehealth.medical
+                    </p>
+                </div>
+                <div>
+                    <div class="footer-section-title">Patient Rights</div>
+                    <p class="footer-text">
+                        This report is your property. You have the right to review, copy, and share this document with healthcare providers of your choosing.
+                    </p>
+                </div>
+            </div>
+            <div class="footer-legal">
+                <strong>Confidential — Protected Health Information</strong><br>
+                This report is intended for the patient and their designated healthcare provider.<br>
+                Executive Health Intelligence | Medical Laboratory Services
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
