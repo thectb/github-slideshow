@@ -2,6 +2,10 @@
 
 Welcome to **your** repository for your GitHub Learning Lab course. This repository will be used during the different activities that I will be guiding you through. See a word you don't understand? We've included an emoji 📖 next to some key terms. Click on it to see its definition.
 
+## Pharmaceutical label asset
+
+The `assets/six-synth-peptides-label.svg` file contains a 40mm × 20mm precision pharmaceutical label for the SIX SYNTH PEPTIDES Retatrutide 20mg concept. The artwork is built as a print-ready vector following the provided color, typography, and geometric specifications.
+
 Oh! I haven't introduced myself...
 
 I'm the GitHub Learning Lab bot and I'm here to help guide you in your journey to learn and master the various topics covered in this course. I will be using Issue and Pull Request comments to communicate with you. In fact, I already added an issue for you to check out.
